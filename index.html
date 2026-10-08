@@ -1,0 +1,508 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Marco Sobrido Alvano</title>
+<meta name="description" content="Marco Sobrido Alvano, full-stack developer and Computer Engineering student in Buenos Aires. Next.js, TypeScript, Supabase, Python.">
+<meta property="og:title" content="Marco Sobrido Alvano · Full-stack developer">
+<meta property="og:description" content="Portfolio: AgroTrace livestock traceability, hackathons, e-commerce and graph algorithms. Open to remote junior roles.">
+<meta property="og:type" content="website">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 300'%3E%3Cpath fill='%23F2C230' d='M92 12a28 28 0 0 1 56 0V64h48a24 24 0 0 1 24 24v140a60 60 0 0 1-60 60H80a60 60 0 0 1-60-60V88a24 24 0 0 1 24-24h48Z'/%3E%3Ccircle cx='120' cy='22' r='11' fill='%23E8ECE5'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=JetBrains+Mono:wght@400;600&family=Public+Sans:ital,wght@0,400;0,600;0,700;1,400&display=swap">
+<style>
+/* Layout: a livestock traceability record. One ear tag (the only loud colour), then the record's entries in reading order. */
+:root {
+  --ground: #E8ECE5;      /* pasture-grey paper */
+  --sheet: #F5F7F2;       /* record sheet */
+  --ink: #18211C;
+  --muted: #56645B;
+  --rule: #C6CFC5;
+  --chip: #DDE3DA;
+  --field: #2D6A47;       /* field green, links + accents */
+  --tag: #F2C230;         /* caravana yellow */
+  --tag-ink: #1E1A0C;
+  --console: #18211C;
+  --console-ink: #CFE3D3;
+  --console-dim: #7F9886;
+  --font-display: "Big Shoulders Display", "Arial Narrow", Impact, sans-serif;
+  --font-body: "Public Sans", "Segoe UI", system-ui, sans-serif;
+  --font-mono: "JetBrains Mono", ui-monospace, Consolas, monospace;
+  --step--1: 0.8125rem; --step-0: 1rem; --step-1: 1.25rem; --step-2: 1.75rem; --step-3: 2.75rem; --step-4: clamp(3.25rem, 9vw, 6.5rem);
+  color-scheme: light;
+}
+@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) {
+  --ground: #101613; --sheet: #161E1A; --ink: #E2E8E1; --muted: #9AAA9F; --rule: #2C3A33; --chip: #222D27;
+  --field: #82C79D; --console: #0B100D; --console-ink: #CFE3D3; --console-dim: #6E8676; color-scheme: dark;
+} }
+:root[data-theme="dark"] {
+  --ground: #101613; --sheet: #161E1A; --ink: #E2E8E1; --muted: #9AAA9F; --rule: #2C3A33; --chip: #222D27;
+  --field: #82C79D; --console: #0B100D; --console-ink: #CFE3D3; --console-dim: #6E8676; color-scheme: dark;
+}
+
+/* language: both versions live in the markup, the inactive one is hidden */
+html[lang="en"] [data-l="es"], html[lang="es"] [data-l="en"] { display: none !important; }
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; scroll-padding-top: 4.5rem; }
+body { margin: 0; background: var(--ground); color: var(--ink); font: 400 var(--step-0)/1.6 var(--font-body); }
+.page { max-width: 68rem; margin: 0 auto; padding-inline: clamp(1rem, 4vw, 2.5rem); padding-block: 0 4rem; display: grid; gap: 4.5rem; }
+a { color: var(--field); text-underline-offset: 3px; }
+a:hover { text-decoration-thickness: 2px; }
+:focus-visible { outline: 3px solid var(--field); outline-offset: 3px; border-radius: 2px; }
+h1, h2, h3 { text-wrap: balance; margin: 0; }
+p { margin: 0; }
+.mono { font-family: var(--font-mono); font-size: var(--step--1); }
+.label { font-family: var(--font-mono); font-size: 0.72rem; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); }
+.skip { position: absolute; left: -999px; top: 0.5rem; background: var(--ink); color: var(--sheet); padding: 0.6rem 1rem; z-index: 10; }
+.skip:focus { left: 1rem; }
+
+/* sticky top bar: record header + section nav + language */
+.top { position: sticky; top: 0; z-index: 5; background: color-mix(in srgb, var(--ground) 92%, transparent); backdrop-filter: blur(6px); border-bottom: 1px solid var(--rule); padding-top: env(safe-area-inset-top, 0px); }
+.top-in { max-width: 68rem; margin: 0 auto; padding-inline: clamp(1rem, 4vw, 2.5rem); display: flex; align-items: center; justify-content: space-between; gap: 1rem; min-height: 3.5rem; }
+.top-in > .label b { color: var(--ink); font-weight: 600; }
+.nav { display: flex; align-items: center; gap: 0.25rem; }
+.nav a { display: inline-flex; align-items: center; min-height: 2.75rem; padding-inline: 0.7rem; color: var(--ink); text-decoration: none; font-size: var(--step--1); font-weight: 600; border-radius: 4px; }
+.nav a:hover { background: var(--chip); }
+.lang { display: inline-flex; border: 2px solid var(--ink); border-radius: 4px; overflow: hidden; margin-left: 0.5rem; }
+.lang button { min-height: 2.5rem; min-width: 2.75rem; border: 0; background: transparent; color: var(--ink); font: 600 0.75rem/1 var(--font-mono); cursor: pointer; }
+.lang button[aria-pressed="true"] { background: var(--ink); color: var(--sheet); }
+
+/* record strip */
+.strip { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem 1.5rem; border-bottom: 1px solid var(--rule); padding-block: 0.6rem; margin-top: 1.25rem; }
+.strip span b { color: var(--ink); font-weight: 600; }
+
+/* hero */
+.hero { display: grid; grid-template-columns: minmax(0, 1.25fr) minmax(0, 1fr); gap: clamp(2rem, 5vw, 4rem); align-items: center; margin-top: -2rem; }
+.hero h1 { font: 900 var(--step-4)/0.86 var(--font-display); text-transform: uppercase; letter-spacing: -0.01em; }
+.hero h1 span { display: block; color: var(--muted); font-weight: 700; }
+.role { margin-top: 1.25rem; font-size: var(--step-1); line-height: 1.4; max-width: 34ch; }
+.status { margin-top: 1.25rem; display: inline-flex; align-items: center; gap: 0.6rem; }
+.dot { flex: none; width: 0.6rem; height: 0.6rem; border-radius: 50%; background: var(--field); box-shadow: 0 0 0 4px color-mix(in srgb, var(--field) 25%, transparent); }
+.actions { margin-top: 2rem; display: flex; flex-wrap: wrap; gap: 0.75rem; }
+.btn { display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem; min-height: 2.875rem; padding-inline: 1.25rem; border-radius: 4px; font: 600 var(--step-0)/1 var(--font-body); text-decoration: none; cursor: pointer; border: 2px solid var(--ink); transition: transform 150ms, background-color 150ms, color 150ms; }
+.btn:hover { transform: translateY(-2px); text-decoration: none; }
+.btn-primary { background: var(--ink); color: var(--sheet); }
+.btn-ghost { background: transparent; color: var(--ink); }
+.btn-ghost:hover { background: var(--ink); color: var(--sheet); }
+
+/* the ear tag */
+.reader { display: grid; justify-items: center; gap: 1rem; }
+.tag { width: min(16rem, 70vw); transform-origin: 50% 6%; animation: sway 6s ease-in-out 3; filter: drop-shadow(0 18px 18px rgb(0 0 0 / 0.16)); }
+.tag .body { fill: var(--tag); }
+.tag .hole { fill: var(--ground); }
+.tag .stamp { fill: var(--tag-ink); font-family: var(--font-display); font-weight: 900; }
+.tag .small { fill: var(--tag-ink); font-family: var(--font-mono); font-size: 11px; letter-spacing: 0.08em; }
+.tag.reading { animation: read 900ms ease-out; }
+@keyframes sway { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-2.5deg); } 75% { transform: rotate(2.5deg); } }
+@keyframes read { 0% { transform: rotate(0); } 30% { transform: rotate(-9deg); } 60% { transform: rotate(6deg); } 100% { transform: rotate(0); } }
+
+.console { width: 100%; background: var(--console); color: var(--console-ink); border-radius: 6px; padding: 1rem 1.1rem; font-family: var(--font-mono); font-size: 0.78rem; line-height: 1.7; min-height: 11.5rem; overflow-x: auto; }
+.console .dim { color: var(--console-dim); }
+.console .ok { color: var(--tag); }
+.console-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; width: 100%; }
+.scan { min-height: 2.75rem; padding-inline: 1rem; border-radius: 4px; border: 2px solid var(--ink); background: var(--tag); color: var(--tag-ink); font: 600 var(--step--1)/1 var(--font-mono); cursor: pointer; }
+.scan:disabled { opacity: 0.7; cursor: progress; }
+.caption { color: var(--muted); font-size: var(--step--1); width: 100%; }
+
+/* sections */
+section { display: grid; gap: 1.75rem; }
+.sec-head { display: grid; gap: 0.4rem; border-top: 2px solid var(--ink); padding-top: 0.9rem; }
+.sec-head h2 { font: 900 var(--step-3)/1 var(--font-display); text-transform: uppercase; }
+
+/* featured case */
+.case { background: var(--sheet); border: 1px solid var(--rule); border-radius: 6px; padding: clamp(1.25rem, 3vw, 2.25rem); display: grid; gap: 1.75rem; }
+.case-top { display: grid; grid-template-columns: minmax(0, 1.4fr) minmax(0, 1fr); gap: 2rem; }
+.case h3 { font: 900 var(--step-2)/1.05 var(--font-display); text-transform: uppercase; }
+.case-lede { margin-top: 0.6rem; max-width: 60ch; }
+.facts { display: grid; gap: 0.6rem; align-content: start; margin: 0; }
+.facts div { display: grid; grid-template-columns: 6.5rem minmax(0, 1fr); gap: 0.75rem; border-bottom: 1px dashed var(--rule); padding-bottom: 0.5rem; }
+.facts dt { font-family: var(--font-mono); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); padding-top: 0.15rem; }
+.facts dd { margin: 0; }
+.notes { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 2rem; }
+.notes li { display: grid; gap: 0.35rem; align-content: start; }
+.notes h4 { margin: 0; font-size: var(--step-0); }
+.notes p { color: var(--muted); max-width: 52ch; }
+
+/* other work */
+.work { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); border-radius: 6px; overflow: hidden; }
+.work article { background: var(--sheet); padding: 1.5rem; display: grid; gap: 0.6rem; align-content: start; }
+.work h3 { font: 700 var(--step-1)/1.2 var(--font-body); }
+.work p { color: var(--muted); }
+.chips { display: flex; flex-wrap: wrap; gap: 0.35rem; margin-top: 0.25rem; }
+.chips span { font-family: var(--font-mono); font-size: 0.7rem; padding: 0.15rem 0.45rem; background: var(--chip); border-radius: 2px; color: var(--ink); }
+
+/* movement log (timeline) */
+.log { list-style: none; margin: 0; padding: 0; border-left: 2px solid var(--ink); display: grid; gap: 1.25rem; }
+.log li { display: grid; grid-template-columns: 8.5rem minmax(0, 1fr); gap: 1rem; padding-left: 1.25rem; position: relative; }
+.log li::before { content: ""; position: absolute; left: -0.45rem; top: 0.45rem; width: 0.8rem; height: 0.8rem; background: var(--ground); border: 2px solid var(--ink); border-radius: 50%; }
+.log li:last-child::before { background: var(--tag); }
+.log time { font-family: var(--font-mono); font-size: var(--step--1); color: var(--muted); padding-top: 0.1rem; }
+
+/* stack */
+.stack { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1.5rem; }
+.stack div { display: grid; gap: 0.5rem; align-content: start; }
+.stack ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.2rem; }
+
+/* contact */
+.contact { background: var(--ink); color: var(--sheet); border-radius: 6px; padding: clamp(1.5rem, 4vw, 3rem); display: grid; grid-template-columns: minmax(0, 1.2fr) minmax(0, 1fr); gap: 2rem; align-items: end; }
+.contact h2 { font: 900 var(--step-3)/0.95 var(--font-display); text-transform: uppercase; }
+.contact p { margin-top: 0.8rem; color: color-mix(in srgb, var(--sheet) 75%, transparent); max-width: 44ch; }
+.contact .btn { border-color: var(--sheet); }
+.contact .btn-ghost { color: var(--sheet); }
+.contact .btn-ghost:hover { background: var(--sheet); color: var(--ink); }
+.contact .btn-primary { background: var(--tag); color: var(--tag-ink); border-color: var(--tag); }
+.reach { display: grid; gap: 0.75rem; }
+.reach .row { display: flex; flex-wrap: wrap; gap: 0.75rem; align-items: center; }
+.copied { font-family: var(--font-mono); font-size: var(--step--1); color: var(--tag); min-height: 1.3em; }
+footer { display: flex; flex-wrap: wrap; justify-content: space-between; gap: 0.5rem; }
+
+@media (max-width: 52rem) {
+  .hero, .case-top, .contact { grid-template-columns: minmax(0, 1fr); }
+  .reader { order: -1; }
+  .hero { margin-top: 0; }
+  .stack { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .nav a { display: none; }
+  .top-in > .label { font-size: 0.66rem; }
+}
+@media (max-width: 36rem) {
+  .notes, .work { grid-template-columns: minmax(0, 1fr); }
+  .log li { grid-template-columns: minmax(0, 1fr); gap: 0.15rem; }
+  .facts div { grid-template-columns: minmax(0, 1fr); gap: 0.1rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .tag, .tag.reading { animation: none; }
+  .btn { transition: none; }
+  .btn:hover { transform: none; }
+}
+</style>
+<script>
+  // Pick the language before first paint so the page never flashes the wrong one.
+  (() => {
+    let saved = null;
+    try { saved = localStorage.getItem('lang'); } catch (e) { /* storage blocked: fall back to browser language */ }
+    const lang = saved || ((navigator.language || 'en').toLowerCase().startsWith('es') ? 'es' : 'en');
+    document.documentElement.lang = lang;
+  })();
+</script>
+</head>
+<body>
+<a class="skip" href="#main"><span data-l="en">Skip to content</span><span data-l="es">Ir al contenido</span></a>
+
+<div class="top">
+  <div class="top-in">
+    <span class="label"><b>EID 032 2025 0000 0536</b></span>
+    <nav class="nav" aria-label="Sections">
+      <a href="#work"><span data-l="en">Work</span><span data-l="es">Proyectos</span></a>
+      <a href="#trace"><span data-l="en">Trace</span><span data-l="es">Trayecto</span></a>
+      <a href="#stack"><span data-l="en">Stack</span><span data-l="es">Stack</span></a>
+      <a href="#contact"><span data-l="en">Contact</span><span data-l="es">Contacto</span></a>
+      <div class="lang" role="group" aria-label="Language / Idioma">
+        <button type="button" id="lang-en" data-set="en" aria-pressed="true">EN</button>
+        <button type="button" id="lang-es" data-set="es" aria-pressed="false">ES</button>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<main class="page" id="main">
+  <div class="strip label">
+    <span><span data-l="en">Developer record</span><span data-l="es">Registro de desarrollador</span></span>
+    <span><span data-l="en">Origin</span><span data-l="es">Origen</span> <b>Buenos Aires, AR</b></span>
+    <span><span data-l="en">Status</span><span data-l="es">Estado</span> <b><span data-l="en">open to work</span><span data-l="es">disponible</span></b></span>
+  </div>
+
+  <header class="hero">
+    <div>
+      <h1>Marco Sobrido<span>Alvano</span></h1>
+      <p class="role">
+        <span data-l="en">Full-stack developer and Computer Engineering student. I build software where every record can be traced back to where it came from.</span>
+        <span data-l="es">Desarrollador full-stack y estudiante de Ingeniería en Informática. Construyo software en el que cada registro se puede rastrear hasta su origen.</span>
+      </p>
+      <p class="status mono"><span class="dot" aria-hidden="true"></span>
+        <span data-l="en">Looking for remote junior roles · Argentina / LatAm</span>
+        <span data-l="es">Busco puestos junior remotos · Argentina / LatAm</span>
+      </p>
+      <div class="actions">
+        <a class="btn btn-primary" href="#contact"><span data-l="en">Get in touch</span><span data-l="es">Contactarme</span></a>
+        <a class="btn btn-ghost" href="cv.pdf" target="_blank" rel="noopener"><span data-l="en">Download CV (PDF)</span><span data-l="es">Descargar CV (PDF)</span></a>
+      </div>
+    </div>
+
+    <div class="reader">
+      <svg class="tag" id="tag" viewBox="0 0 240 300" role="img" aria-label="Ear tag / caravana EID 032 2025 0000 0536">
+        <path class="body" d="M92 12 a28 28 0 0 1 56 0 V64 H196 a24 24 0 0 1 24 24 V228 a60 60 0 0 1 -60 60 H80 a60 60 0 0 1 -60 -60 V88 a24 24 0 0 1 24 -24 H92 Z"/>
+        <circle class="hole" cx="120" cy="22" r="11"/>
+        <text class="small" x="120" y="100" text-anchor="middle">AR · 032 · FDX-B</text>
+        <text class="stamp" x="120" y="172" text-anchor="middle" font-size="64">MSA</text>
+        <text class="stamp" x="120" y="226" text-anchor="middle" font-size="40">0536</text>
+        <text class="small" x="120" y="262" text-anchor="middle">2025 · UADE · FULL-STACK</text>
+      </svg>
+      <div class="console-head">
+        <span class="label"><span data-l="en">Reader</span><span data-l="es">Lector</span> · Web Bluetooth</span>
+        <button class="scan" id="scan" type="button"><span data-l="en">Scan tag</span><span data-l="es">Leer caravana</span></button>
+      </div>
+      <div class="console" id="console" aria-live="polite">
+        <div class="dim">$ navigator.bluetooth.requestDevice()</div>
+        <div>connected · Nordic UART service</div>
+        <div>rx 032202500000536</div>
+        <div>lookup EID… <span class="ok">record found</span></div>
+        <div class="dim">stack: Next.js · TypeScript · Supabase · Python</div>
+      </div>
+      <p class="caption">
+        <span data-l="en">A replay of how AgroTrace reads a real RFID ear tag from the browser.</span>
+        <span data-l="es">Una recreación de cómo AgroTrace lee una caravana RFID real desde el navegador.</span>
+      </p>
+    </div>
+  </header>
+
+  <section id="work" aria-labelledby="case-title">
+    <div class="sec-head">
+      <span class="label"><span data-l="en">Main entry · 2025 to now · built solo</span><span data-l="es">Entrada principal · 2025 a hoy · desarrollo propio</span></span>
+      <h2 id="case-title"><span data-l="en">Featured project</span><span data-l="es">Proyecto destacado</span></h2>
+    </div>
+    <article class="case">
+      <div class="case-top">
+        <div>
+          <h3><span data-l="en">AgroTrace, livestock traceability</span><span data-l="es">AgroTrace, trazabilidad ganadera</span></h3>
+          <p class="case-lede">
+            <span data-l="en">A multi-tenant web platform for Argentine cattle farms. Each animal carries an electronic ear tag. AgroTrace reads that tag from the field, stores what happened to the animal, and sends its movements to SENASA, the national agri-food authority. I designed, built and shipped it end to end.</span>
+            <span data-l="es">Una plataforma web multi-establecimiento para campos ganaderos de Argentina. Cada animal lleva una caravana electrónica. AgroTrace la lee en el campo, guarda lo que le pasó al animal y envía sus movimientos a SENASA. La diseñé, la construí y la puse en marcha de punta a punta.</span>
+          </p>
+        </div>
+        <dl class="facts">
+          <div><dt>Frontend</dt><dd>Next.js, React, TypeScript, PWA</dd></div>
+          <div><dt><span data-l="en">Data</span><span data-l="es">Datos</span></dt><dd>Supabase Postgres, Auth, Row-Level Security</dd></div>
+          <div><dt>Hardware</dt><dd><span data-l="en">RFID readers over Web Bluetooth (BLE)</span><span data-l="es">Lectores RFID por Web Bluetooth (BLE)</span></dd></div>
+          <div><dt>Infra</dt><dd>Docker, Cloud Run, Cloud Build, Vercel</dd></div>
+          <div><dt>Testing</dt><dd><span data-l="en">Playwright, regression tests</span><span data-l="es">Playwright, tests de regresión</span></dd></div>
+        </dl>
+      </div>
+      <ul class="notes">
+        <li>
+          <span class="label"><span data-l="en">Hardware limit</span><span data-l="es">Límite de hardware</span></span>
+          <h4><span data-l="en">Browsers can't reach every reader</span><span data-l="es">El navegador no llega a todos los lectores</span></h4>
+          <p>
+            <span data-l="en">Some tag readers use Bluetooth Classic (SPP), and no browser can connect to it. I found this while testing real hardware, so the app works as a PWA over BLE and has a native Android path for SPP readers.</span>
+            <span data-l="es">Algunos lectores usan Bluetooth Clásico (SPP), y ningún navegador puede conectarse a él. Lo descubrí probando hardware real, así que la app funciona como PWA por BLE y tiene una vía Android nativa para los lectores SPP.</span>
+          </p>
+        </li>
+        <li>
+          <span class="label"><span data-l="en">Bug I traced</span><span data-l="es">Bug que rastreé</span></span>
+          <h4><span data-l="en">Writes that failed without an error</span><span data-l="es">Escrituras que fallaban sin error</span></h4>
+          <p>
+            <span data-l="en">Some edits were being lost. I traced it to supabase-js, which returns server rejections as values and does not throw them. I fixed the sync queue and added regression tests so it stays fixed.</span>
+            <span data-l="es">Se perdían algunas ediciones. Lo rastreé hasta supabase-js, que devuelve los rechazos del servidor como valores en lugar de lanzarlos. Corregí la cola de sincronización y agregué tests de regresión para que no vuelva a pasar.</span>
+          </p>
+        </li>
+        <li>
+          <span class="label"><span data-l="en">Security</span><span data-l="es">Seguridad</span></span>
+          <h4><span data-l="en">Permissions enforced in the database</span><span data-l="es">Permisos aplicados en la base de datos</span></h4>
+          <p>
+            <span data-l="en">Workspace roles (admin, user, read-only) are enforced with Postgres RLS. The page also has a strict Content-Security-Policy, and CSV/Excel exports are protected against formula injection.</span>
+            <span data-l="es">Los roles (admin, usuario, solo lectura) se aplican con RLS de Postgres. Además hay una Content-Security-Policy estricta, y las exportaciones CSV/Excel están protegidas contra inyección de fórmulas.</span>
+          </p>
+        </li>
+        <li>
+          <span class="label"><span data-l="en">No public API</span><span data-l="es">Sin API pública</span></span>
+          <h4><span data-l="en">A bot for a government portal</span><span data-l="es">Un bot para un portal del gobierno</span></h4>
+          <p>
+            <span data-l="en">The government portal has no API, so a Playwright service submits the movement reports. It runs in Docker with health checks on Google Cloud Run.</span>
+            <span data-l="es">El portal del gobierno no tiene API, así que un servicio con Playwright carga los movimientos. Corre en Docker, con health checks, sobre Google Cloud Run.</span>
+          </p>
+        </li>
+      </ul>
+    </article>
+  </section>
+
+  <section aria-labelledby="work-title">
+    <div class="sec-head">
+      <span class="label"><span data-l="en">Other entries</span><span data-l="es">Otras entradas</span></span>
+      <h2 id="work-title"><span data-l="en">More work</span><span data-l="es">Más proyectos</span></h2>
+    </div>
+    <div class="work">
+      <article>
+        <span class="label"><span data-l="en">Platanus Hack 26 · AI security track · May 2026</span><span data-l="es">Platanus Hack 26 · track de seguridad en IA · mayo 2026</span></span>
+        <h3>Vibefence</h3>
+        <p>
+          <span data-l="en">Built with my team in 36 hours: a runtime security layer for AI coding agents. It intercepts each tool call and blocks shell commands whose authority comes from untrusted sources, such as a README with a prompt injection.</span>
+          <span data-l="es">Lo construimos en equipo en 36 horas: una capa de seguridad en tiempo de ejecución para agentes de programación con IA. Intercepta cada llamada a herramientas y bloquea los comandos cuya autoridad viene de fuentes no confiables, como un README con prompt injection.</span>
+        </p>
+        <div class="chips"><span>Python</span><span>FastAPI</span><span>Next.js</span><span>MCP</span></div>
+      </article>
+      <article>
+        <span class="label"><span data-l="en">Serious Game Hackathon · Jul 2026 · team of 5</span><span data-l="es">Serious Game Hackathon · jul 2026 · equipo de 5</span></span>
+        <h3>El Ateneo: Cuentos del Splendid</h3>
+        <p>
+          <span data-l="en">A cozy management game set in El Ateneo Grand Splendid, the 1919 theatre in Buenos Aires that is now a bookstore. It has a 3-level browser prototype and a 1:1 recreation of the building in Unreal Engine 5.</span>
+          <span data-l="es">Un juego de gestión ambientado en El Ateneo Grand Splendid, el teatro de 1919 de Buenos Aires que hoy es una librería. Tiene un prototipo jugable de 3 niveles en el navegador y una recreación 1:1 del edificio en Unreal Engine 5.</span>
+        </p>
+        <div class="chips"><span>HTML5 Canvas</span><span>WebAudio</span><span>Unreal Engine 5</span></div>
+      </article>
+      <article>
+        <span class="label"><span data-l="en">2026 · two storefronts</span><span data-l="es">2026 · dos tiendas online</span></span>
+        <h3><span data-l="en">E-commerce storefronts</span><span data-l="es">Tiendas e-commerce</span></h3>
+        <p>
+          <span data-l="en">An apparel store and a sport-shooting retailer. Checkout recalculates every price on the server, and RLS makes orders insert-only. Each product has its own legal sale rules, and ARS prices follow a daily exchange rate.</span>
+          <span data-l="es">Una tienda de ropa y una armería deportiva. El checkout recalcula cada precio en el servidor, y RLS hace que los pedidos solo se puedan insertar. Cada producto tiene sus propias reglas legales de venta, y los precios en pesos siguen el tipo de cambio del día.</span>
+        </p>
+        <div class="chips"><span>Next.js 16</span><span>React 19</span><span>Supabase</span><span>Vercel</span></div>
+      </article>
+      <article>
+        <span class="label"><span data-l="en">Programming III · Aug 2026 · team of 3</span><span data-l="es">Programación III · ago 2026 · equipo de 3</span></span>
+        <h3><span data-l="en">Graph algorithms REST API</span><span data-l="es">API REST de algoritmos sobre grafos</span></h3>
+        <p>
+          <span data-l="en">A Spring Boot API on a metro fibre-optic network modelled in Neo4j. It covers BFS, DFS, Dijkstra, Floyd–Warshall, Prim, Kruskal, dynamic programming, backtracking and branch and bound, with JUnit tests I checked by hand.</span>
+          <span data-l="es">Una API en Spring Boot sobre una red de fibra óptica metropolitana modelada en Neo4j. Incluye BFS, DFS, Dijkstra, Floyd–Warshall, Prim, Kruskal, programación dinámica, backtracking y branch and bound, con tests JUnit verificados a mano.</span>
+        </p>
+        <div class="chips"><span>Java</span><span>Spring Boot</span><span>Neo4j</span><span>JUnit</span></div>
+      </article>
+    </div>
+  </section>
+
+  <section id="trace" aria-labelledby="log-title">
+    <div class="sec-head">
+      <span class="label"><span data-l="en">Movement log · oldest first</span><span data-l="es">Registro de movimientos · del más antiguo al más reciente</span></span>
+      <h2 id="log-title"><span data-l="en">Trace</span><span data-l="es">Trayecto</span></h2>
+    </div>
+    <ol class="log">
+      <li><time datetime="2024">2024</time><p><span data-l="en">Cambridge B2 First certificate in English.</span><span data-l="es">Certificado Cambridge B2 First de inglés.</span></p></li>
+      <li><time datetime="2025">2025</time><p><span data-l="en">Started Computer Engineering at UADE (expected 2030). Started building AgroTrace.</span><span data-l="es">Empecé Ingeniería en Informática en UADE (egreso previsto 2030). Empecé a construir AgroTrace.</span></p></li>
+      <li><time datetime="2026-05"><span data-l="en">May 2026</span><span data-l="es">May 2026</span></time><p><span data-l="en">Platanus Hack 26 with Vibefence, in the AI security track.</span><span data-l="es">Platanus Hack 26 con Vibefence, en el track de seguridad en IA.</span></p></li>
+      <li><time datetime="2026">2026</time><p><span data-l="en">Red Hat System Administration I (RH124) and SAP ERP Fundamentals.</span><span data-l="es">Red Hat System Administration I (RH124) y SAP ERP Fundamentals.</span></p></li>
+      <li><time datetime="2026-07"><span data-l="en">Jul 2026</span><span data-l="es">Jul 2026</span></time><p>Serious Game Hackathon, Madrid in Game × BIG Buenos Aires.</p></li>
+      <li><time datetime="2026-08"><span data-l="en">Aug 2026</span><span data-l="es">Ago 2026</span></time><p><span data-l="en">Graph algorithms API for Programming III. Built two e-commerce storefronts.</span><span data-l="es">API de algoritmos sobre grafos para Programación III. Construí dos tiendas e-commerce.</span></p></li>
+      <li><time datetime="2026-10"><span data-l="en">Now</span><span data-l="es">Hoy</span></time><p><span data-l="en">Looking for my first role on a remote team.</span><span data-l="es">Busco mi primer puesto en un equipo remoto.</span></p></li>
+    </ol>
+  </section>
+
+  <section id="stack" aria-labelledby="stack-title">
+    <div class="sec-head">
+      <span class="label"><span data-l="en">Tools I have shipped with</span><span data-l="es">Herramientas con las que ya entregué</span></span>
+      <h2 id="stack-title">Stack</h2>
+    </div>
+    <div class="stack">
+      <div><span class="label"><span data-l="en">Languages</span><span data-l="es">Lenguajes</span></span><ul><li>TypeScript</li><li>JavaScript</li><li>Python</li><li>Java</li><li>SQL</li></ul></div>
+      <div><span class="label">Web &amp; backend</span><ul><li>React, Next.js</li><li>Node.js, REST</li><li>Spring Boot</li><li>Tailwind CSS</li><li>PWAs, Web Bluetooth</li></ul></div>
+      <div><span class="label"><span data-l="en">Data &amp; cloud</span><span data-l="es">Datos y nube</span></span><ul><li>PostgreSQL, Supabase</li><li>Neo4j, SQL Server</li><li>Google Cloud Run</li><li>Vercel, Docker</li></ul></div>
+      <div><span class="label"><span data-l="en">Practice</span><span data-l="es">Práctica</span></span><ul><li>Git &amp; GitHub</li><li>Playwright</li><li>Linux (Red Hat)</li><li>Figma, Unreal Engine 5</li><li><span data-l="en">AI-assisted dev (Claude Code)</span><span data-l="es">Desarrollo asistido por IA (Claude Code)</span></li></ul></div>
+    </div>
+  </section>
+
+  <section class="contact" id="contact" aria-labelledby="contact-title">
+    <div>
+      <h2 id="contact-title"><span data-l="en">Let's talk</span><span data-l="es">Hablemos</span></h2>
+      <p>
+        <span data-l="en">Spanish is my first language and I have a Cambridge B2 in English. I work from Buenos Aires (UTC−3).</span>
+        <span data-l="es">Mi lengua materna es el español y tengo un Cambridge B2 de inglés. Trabajo desde Buenos Aires (UTC−3).</span>
+      </p>
+    </div>
+    <div class="reach">
+      <div class="row">
+        <button class="btn btn-primary" id="copy" type="button"><span data-l="en">Copy email</span><span data-l="es">Copiar email</span></button>
+        <a class="mono" id="email" href="mailto:marcosobrido@gmail.com" style="color: inherit">marcosobrido@gmail.com</a>
+      </div>
+      <span class="copied" id="copied" aria-live="polite"></span>
+      <div class="row">
+        <a class="btn btn-ghost" href="https://github.com/M4RQUIT0S" target="_blank" rel="noopener">GitHub</a>
+        <a class="btn btn-ghost" href="https://linkedin.com/in/marco-sobrido" target="_blank" rel="noopener">LinkedIn</a>
+      </div>
+    </div>
+  </section>
+
+  <footer class="label">
+    <span>Marco Sobrido Alvano · 2026</span>
+    <span><span data-l="en">Hand-built HTML &amp; CSS, no framework</span><span data-l="es">HTML y CSS a mano, sin framework</span></span>
+  </footer>
+</main>
+
+<script>
+(() => {
+  const root = document.documentElement;
+  const text = {
+    en: { reading: 'Reading…', copied: 'Email copied', selected: 'Email selected. Press Ctrl+C to copy.',
+          name: 'name: Marco Sobrido Alvano · role: full-stack', last: 'last movement: looking for a remote team' },
+    es: { reading: 'Leyendo…', copied: 'Email copiado', selected: 'Email seleccionado. Presioná Ctrl+C para copiar.',
+          name: 'nombre: Marco Sobrido Alvano · rol: full-stack', last: 'último movimiento: buscando un equipo remoto' },
+  };
+  const t = key => text[root.lang === 'es' ? 'es' : 'en'][key];
+
+  // language toggle
+  const langButtons = document.querySelectorAll('.lang button');
+  const setLang = lang => {
+    root.lang = lang;
+    langButtons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.set === lang)));
+    try { localStorage.setItem('lang', lang); } catch (e) { /* storage blocked: choice lasts for this visit only */ }
+  };
+  langButtons.forEach(b => b.addEventListener('click', () => setLang(b.dataset.set)));
+  setLang(root.lang);
+
+  // simulated tag read
+  const scanBtn = document.getElementById('scan');
+  const out = document.getElementById('console');
+  const tag = document.getElementById('tag');
+  const wait = ms => new Promise(r => setTimeout(r, ms));
+  const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const row = (content, cls) => {
+    const el = document.createElement('div');
+    if (cls) el.className = cls;
+    el.append(...content);
+    return el;
+  };
+  const ok = document.createElement('span');
+  ok.className = 'ok';
+  ok.textContent = 'record found';
+
+  scanBtn.addEventListener('click', async () => {
+    const label = scanBtn.innerHTML;
+    scanBtn.disabled = true;
+    scanBtn.textContent = t('reading');
+    out.replaceChildren();
+    tag.classList.remove('reading');
+    void tag.getBoundingClientRect();
+    tag.classList.add('reading');
+    const lines = [
+      row(['$ navigator.bluetooth.requestDevice({ filters: [{ services: [NUS] }] })'], 'dim'),
+      row(['pairing… connected · Nordic UART service']),
+      row(['rx 032202500000536']),
+      row(['lookup EID… ', ok.cloneNode(true)]),
+      row([t('name')]),
+      row([t('last')], 'dim'),
+    ];
+    for (const line of lines) {
+      out.append(line);
+      if (!reduce) await wait(420);
+    }
+    scanBtn.innerHTML = label;
+    scanBtn.disabled = false;
+  });
+
+  // copy email
+  const copyBtn = document.getElementById('copy');
+  const email = document.getElementById('email');
+  const copied = document.getElementById('copied');
+  let clearTimer;
+  const say = msg => {
+    copied.textContent = msg;
+    clearTimeout(clearTimer);
+    clearTimer = setTimeout(() => { copied.textContent = ''; }, 4000);
+  };
+  copyBtn.addEventListener('click', () => {
+    navigator.clipboard.writeText(email.textContent)
+      .then(() => say(t('copied')))
+      .catch(() => {
+        const range = document.createRange();
+        range.selectNodeContents(email);
+        const sel = getSelection();
+        sel.removeAllRanges();
+        sel.addRange(range);
+        say(t('selected'));
+      });
+  });
+})();
+</script>
+</body>
+</html>
