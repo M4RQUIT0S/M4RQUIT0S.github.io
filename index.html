@@ -219,6 +219,8 @@ a { color: inherit; }
     transition: opacity 0.3s ease, transform 0.3s ease;
 }
 .footer-link:hover { opacity: 0.75; transform: translateY(-1px); }
+.email-note { margin-top: 1rem; padding: 0 5px; font: 400 0.9rem/1 'Outfit', sans-serif; color: #39FF14; text-shadow: 0 0 8px rgba(57, 255, 20, 0.45); }
+.email-note[hidden] { display: none; }
 .footer-copyright {
     font-family: 'Outfit', sans-serif;
     font-size: 0.95rem;
@@ -240,6 +242,7 @@ a { color: inherit; }
     justify-content: center;
     align-items: center;
     z-index: 3;
+    pointer-events: none;   /* on short screens it overlaps the links above it */
 }
 .footer-logo-text {
     font-family: 'General Sans', -apple-system, sans-serif;
@@ -348,36 +351,6 @@ a { color: inherit; }
 .no-js .rise { opacity: 1; transform: none; }
 
 /* ============ Cursor ============ */
-.glass-cursor-card {
-    position: fixed;
-    top: 0;
-    left: 0;
-    z-index: 99999;
-    pointer-events: none;
-    padding: 0.75rem 1.5rem;
-    background: rgba(255, 255, 255, 0.08);
-    backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
-    border: 1px solid rgba(255, 255, 255, 0.18);
-    border-radius: 9999px;
-    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-    will-change: transform, opacity;
-    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.glass-cursor-card.active { opacity: 1; }
-.cursor-card-text {
-    font-family: 'General Sans', -apple-system, sans-serif;
-    font-size: 0.85rem;
-    font-weight: 500;
-    letter-spacing: 0.06em;
-    color: #39FF14;
-    text-transform: uppercase;
-    white-space: nowrap;
-    text-shadow: 0 0 8px rgba(57, 255, 20, 0.45);
-}
-.cursor-card-text .text-white { color: #ffffff; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25); }
 .cursor-ring-outline {
     position: fixed;
     top: 0;
@@ -409,7 +382,7 @@ a { color: inherit; }
     .path li { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
 }
 @media (hover: none), (pointer: coarse) {
-    .glass-cursor-card, .cursor-ring-outline { display: none; }
+    .cursor-ring-outline { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -477,6 +450,7 @@ a { color: inherit; }
 
             <div class="footer-copyright">© 2026 Marco Sobrido</div>
         </div>
+        <p class="email-note" id="email-note" role="status" hidden><span data-l="en">marcosobrido@gmail.com copied to the clipboard</span><span data-l="es">marcosobrido@gmail.com copiado al portapapeles</span></p>
     </footer>
 
     <div class="footer-logo-wrap" aria-hidden="true">
@@ -604,9 +578,6 @@ a { color: inherit; }
 
 <div id="cursor-ring" class="cursor-ring-outline" aria-hidden="true"></div>
 
-<div id="glass-card" class="glass-cursor-card" aria-hidden="true">
-    <span class="cursor-card-text"><span class="text-white"><span data-l="en">Say</span><span data-l="es">Decí</span></span> <span data-l="en">Hello!</span><span data-l="es">¡Hola!</span></span>
-</div>
 
 <script>
 document.addEventListener('DOMContentLoaded', () => {
@@ -678,63 +649,40 @@ document.addEventListener('DOMContentLoaded', () => {
     }), { threshold: 0.2 });
     document.querySelectorAll('.section-title, .rise').forEach(el => io.observe(el));
 
-    // Cursor: outlined ring tracks instantly, glass pill lags behind (lerp)
-    const glassCard = document.getElementById('glass-card');
+    // Cursor: an outlined ring that tracks the pointer and widens over links and buttons
     const cursorRing = document.getElementById('cursor-ring');
     const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches;
-
-    if (glassCard && cursorRing && finePointer) {
-        let mouseX = window.innerWidth / 2;
-        let mouseY = window.innerHeight / 2;
-        let cardX = mouseX, cardY = mouseY;
-        let ringX = mouseX, ringY = mouseY;
-        let isFirstMove = true;
-        let scale = 0;
-        let targetScale = 0;
-        let isHoveringBtn = false;
-
+    if (cursorRing && finePointer) {
+        let mouseX = 0, mouseY = 0, scale = 0, targetScale = 0;
         document.addEventListener('mousemove', (e) => {
             mouseX = e.clientX;
             mouseY = e.clientY;
-            if (isFirstMove) {
-                cardX = mouseX; cardY = mouseY;
-                ringX = mouseX; ringY = mouseY;
-                isFirstMove = false;
-                glassCard.classList.add('active');
-                cursorRing.classList.add('active');
-            }
-            if (!isHoveringBtn) targetScale = 1;
+            cursorRing.classList.add('active');
+            targetScale = cursorRing.classList.contains('expanded') ? 1.6 : 1;
         });
         document.addEventListener('mouseleave', () => { targetScale = 0; });
-        document.addEventListener('mouseenter', () => { if (!isHoveringBtn) targetScale = 1; });
-
-        // Every link and button hides the pill and widens the ring, like "Book a demo" in the original
         document.querySelectorAll('a, button').forEach(target => {
-            target.addEventListener('mouseenter', () => {
-                isHoveringBtn = true;
-                targetScale = 0;
-                cursorRing.classList.add('expanded');
-            });
-            target.addEventListener('mouseleave', () => {
-                isHoveringBtn = false;
-                targetScale = 1;
-                cursorRing.classList.remove('expanded');
-            });
+            target.addEventListener('mouseenter', () => { cursorRing.classList.add('expanded'); targetScale = 1.6; });
+            target.addEventListener('mouseleave', () => { cursorRing.classList.remove('expanded'); targetScale = 1; });
         });
-
         const updatePhysics = () => {
-            cardX += (mouseX - cardX) * 0.08;
-            cardY += (mouseY - cardY) * 0.08;
-            ringX = mouseX;
-            ringY = mouseY;
             scale += (targetScale - scale) * 0.15;
-            const ringScale = cursorRing.classList.contains('expanded') ? 1.6 : scale;
-            glassCard.style.transform = `translate3d(${cardX}px, ${cardY}px, 0) translate(-50%, -50%) scale(${scale})`;
-            cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%) scale(${ringScale})`;
+            cursorRing.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%) scale(${scale})`;
             requestAnimationFrame(updatePhysics);
         };
         updatePhysics();
     }
+
+    // Email: mailto opens the mail app; the address is also copied in case there isn't one
+    const emailNote = document.getElementById('email-note');
+    document.querySelectorAll('a[href^="mailto:"]').forEach(link => link.addEventListener('click', () => {
+        const address = link.getAttribute('href').slice(7);
+        navigator.clipboard?.writeText(address).then(() => {
+            emailNote.hidden = false;
+            clearTimeout(emailNote.timer);
+            emailNote.timer = setTimeout(() => { emailNote.hidden = true; }, 3500);
+        }).catch(() => { /* clipboard refused: the mailto link still works */ });
+    }));
 });
 </script>
 </body>
