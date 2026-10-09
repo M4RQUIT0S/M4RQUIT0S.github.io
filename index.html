@@ -44,11 +44,11 @@ a { color: inherit; }
 :focus-visible { outline: 2px solid var(--neon); outline-offset: 4px; border-radius: 4px; }
 
 /* ============ 1. The Loopstack screen ============ */
-/* ponytail: the spec's fixed layers become absolute inside a 100vh screen so the portfolio can scroll below it */
-.screen { position: relative; height: 100vh; height: 100svh; min-height: 640px; overflow: hidden; isolation: isolate; }
+/* The video and top gradient stay fixed to the viewport; everything else scrolls over them. */
+.screen { position: relative; height: 100vh; height: 100svh; min-height: 640px; overflow: hidden; }
 
 #top-gradient {
-    position: absolute;
+    position: fixed;
     top: -30vh;
     left: 0;
     width: 100vw;
@@ -258,31 +258,32 @@ a { color: inherit; }
 }
 
 .video-container {
-    position: absolute;
+    position: fixed;
     bottom: 0;
     left: 0;
     width: 100vw;
-    height: 90%;
+    height: 90vh;
     overflow: hidden;
     z-index: -1;
 }
 #bg-video { width: 100%; height: 110%; object-fit: cover; display: block; }
 
 /* ============ 2. Portfolio below, same visual language ============ */
-.content { position: relative; z-index: 1; padding-inline: 20px; }
+/* a light scrim keeps text readable while the fixed video stays visible behind it */
+.content { position: relative; z-index: 1; padding-inline: 20px; background: linear-gradient(to bottom, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0.62) 40vh); text-shadow: 0 2px 18px rgba(0, 0, 0, 0.6); }
 .section { max-width: 1100px; margin: 0 auto; padding-block: clamp(5rem, 12vw, 9rem); border-top: 1px solid var(--line); }
 .section:first-child { border-top: 0; }
 .kicker { font: 500 0.85rem/1 var(--display); letter-spacing: 0.06em; text-transform: uppercase; color: var(--neon); text-shadow: 0 0 8px rgba(57, 255, 20, 0.45); display: inline-flex; align-items: center; gap: 0.7rem; }
 .kicker .blinking-dot { width: 7px; height: 7px; }
 .section-title { margin-top: 1.5rem; font: 400 clamp(2.2rem, 5vw, 3.6rem)/1.1 var(--serif); letter-spacing: -0.015em; max-width: 18ch; text-wrap: balance; }
 .section-title em { font-style: italic; color: var(--muted); }
-.lede { margin-top: 1.75rem; max-width: 60ch; font: 300 1.15rem/1.65 var(--sans); color: var(--muted); }
+.lede { margin-top: 1.75rem; max-width: 60ch; font: 300 1.15rem/1.65 var(--sans); color: rgba(255, 255, 255, 0.72); }
 
 /* about: facts row */
 .facts { margin-top: 3.5rem; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); }
 .fact { padding: 1.5rem 1.25rem 0 0; display: grid; gap: 0.4rem; align-content: start; }
 .fact b { font: 400 1.4rem/1.2 var(--display); letter-spacing: -0.015em; }
-.fact span { font: 400 0.95rem/1.5 var(--sans); color: var(--faint); }
+.fact > span { font: 400 0.95rem/1.5 var(--sans); color: var(--faint); }
 
 /* projects: editorial rows */
 .projects { margin-top: 3.5rem; list-style: none; border-bottom: 1px solid var(--line); }
@@ -292,7 +293,7 @@ a { color: inherit; }
 .project h3 { font: 400 clamp(1.6rem, 3vw, 2.2rem)/1.15 var(--serif); letter-spacing: -0.015em; transition: transform 0.5s var(--ease), color 0.5s var(--ease); }
 .project:hover h3 { transform: translateX(10px); }
 .project-body { display: grid; gap: 1.25rem; align-content: start; }
-.project-body p { font: 300 1.05rem/1.65 var(--sans); color: var(--muted); max-width: 62ch; }
+.project-body p { font: 300 1.05rem/1.65 var(--sans); color: rgba(255, 255, 255, 0.72); max-width: 62ch; }
 .pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
 .pills span { font: 400 0.82rem/1 var(--sans); letter-spacing: 0.02em; padding: 0.55rem 0.95rem; border: 1px solid var(--border); border-radius: 9999px; color: rgba(255, 255, 255, 0.75); }
 .notes { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 2rem; margin-top: 0.5rem; }
