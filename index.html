@@ -1,354 +1,740 @@
 <!doctype html>
 <html lang="en">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Marco Sobrido Alvano · Full-Stack Developer</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marco Sobrido</title>
 <meta name="description" content="Marco Sobrido Alvano, full-stack developer and Computer Engineering student in Buenos Aires. Next.js, TypeScript, Supabase, Python.">
-<meta property="og:title" content="Marco Sobrido Alvano · Full-Stack Developer">
+<meta property="og:title" content="Marco Sobrido · Full-Stack Developer">
 <meta property="og:description" content="AgroTrace livestock traceability, hackathons, e-commerce and graph algorithms. Open to remote junior roles.">
-<meta property="og:type" content="website">
-<meta name="theme-color" content="#0A0B0A">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 240 300'%3E%3Cpath fill='%23F2C230' fill-rule='evenodd' d='M92 12a28 28 0 0 1 56 0V64h48a24 24 0 0 1 24 24v140a60 60 0 0 1-60 60H80a60 60 0 0 1-60-60V88a24 24 0 0 1 24-24h48ZM131 22a11 11 0 1 0-22 0a11 11 0 1 0 22 0Z'/%3E%3C/svg%3E">
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Big+Shoulders+Display:wght@700;900&family=Geist+Mono:wght@400;500&family=Geist:wght@400;500;600;700&display=swap">
-<link rel="stylesheet" href="styles.css">
+<meta name="theme-color" content="#000000">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=general-sans@400,500,600&display=swap');
+
+/* Layout: the Loopstack screen as the first viewport, then the portfolio in the same black / serif / neon language. */
+:root {
+    --black: #000000;
+    --white: #ffffff;
+    --neon: #39FF14;
+    --muted: rgba(255, 255, 255, 0.55);
+    --faint: rgba(255, 255, 255, 0.45);
+    --line: rgba(255, 255, 255, 0.2);
+    --border: rgba(255, 255, 255, 0.18);
+    --serif: 'Playfair Display', Georgia, serif;
+    --sans: 'Outfit', sans-serif;
+    --display: 'General Sans', -apple-system, sans-serif;
+    --ease: cubic-bezier(0.16, 1, 0.3, 1);
+    --reveal: cubic-bezier(0.05, 0.9, 0.1, 1);
+    color-scheme: dark;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+    background-color: #000000;
+    min-height: 100vh;
+    position: relative;
+    color: var(--white);
+    font-family: var(--sans);
+    overflow-x: hidden;
+}
+html[lang="en"] [data-l="es"], html[lang="es"] [data-l="en"] { display: none !important; }
+a { color: inherit; }
+:focus-visible { outline: 2px solid var(--neon); outline-offset: 4px; border-radius: 4px; }
+
+/* ============ 1. The Loopstack screen ============ */
+/* ponytail: the spec's fixed layers become absolute inside a 100vh screen so the portfolio can scroll below it */
+.screen { position: relative; height: 100vh; height: 100svh; min-height: 640px; overflow: hidden; isolation: isolate; }
+
+#top-gradient {
+    position: absolute;
+    top: -30vh;
+    left: 0;
+    width: 100vw;
+    height: auto;
+    display: block;
+    z-index: 0;
+    pointer-events: none;
+}
+
+.hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding-top: 6vh;
+    width: 95%;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+.hero-title {
+    font-family: 'Playfair Display', Georgia, serif;
+    font-size: 2.8rem;
+    font-weight: 400;
+    color: #ffffff;
+    line-height: 1.15;
+    margin-bottom: 2.2rem;
+    letter-spacing: -0.015em;
+    text-shadow: 0 4px 30px rgba(0, 0, 0, 0.5);
+}
+.hero-btn {
+    font-family: 'Outfit', sans-serif;
+    font-size: 1.1rem;
+    font-weight: 500;
+    letter-spacing: 0.02em;
+    color: #ffffff;
+    background-color: #000000;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    padding: 1.3rem 2.5rem;
+    border-radius: 9999px;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 4px 25px rgba(0, 0, 0, 0.4);
+    text-decoration: none;
+}
+.hero-btn:hover {
+    background-color: #ffffff;
+    color: #000000;
+    border-color: #ffffff;
+    transform: translateY(-2px);
+    box-shadow: 0 6px 30px rgba(0, 0, 0, 0.3);
+}
+.hero-btn:active { transform: translateY(0); }
+
+.blinking-dot {
+    width: 10px;
+    height: 10px;
+    background-color: #39FF14;
+    border-radius: 50%;
+    position: relative;
+    display: inline-block;
+    flex: none;
+    animation: pulse-glow 2s infinite ease-in-out;
+}
+.blinking-dot::after {
+    content: '';
+    position: absolute;
+    top: -5px; left: -5px; right: -5px; bottom: -5px;
+    background-color: rgba(57, 255, 20, 0.45);
+    border-radius: 50%;
+    animation: wave-expand 2s infinite ease-in-out;
+}
+@keyframes pulse-glow {
+    0%, 100% { opacity: 0.5; transform: scale(0.85); box-shadow: 0 0 4px rgba(57, 255, 20, 0.3); }
+    50% { opacity: 1; transform: scale(1.1); box-shadow: 0 0 12px rgba(57, 255, 20, 0.9); }
+}
+@keyframes wave-expand {
+    0%   { transform: scale(0.6); opacity: 0.9; }
+    100% { transform: scale(2.3); opacity: 0; }
+}
+
+/* language toggle, styled like the hero button */
+.lang {
+    position: absolute;
+    top: 1.25rem;
+    right: 20px;
+    z-index: 4;
+    display: inline-flex;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 9999px;
+    overflow: hidden;
+    background: rgba(0, 0, 0, 0.5);
+}
+.lang button {
+    font: 500 0.8rem/1 'Outfit', sans-serif;
+    letter-spacing: 0.06em;
+    color: rgba(255, 255, 255, 0.55);
+    background: transparent;
+    border: 0;
+    min-width: 2.9rem;
+    min-height: 2.5rem;
+    cursor: pointer;
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.lang button[aria-pressed="true"] { background: #ffffff; color: #000000; }
+
+.footer-container {
+    position: absolute;
+    top: 50%;
+    left: 20px;
+    right: 20px;
+    transform: translateY(-50%);
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+}
+.footer-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+    width: 100%;
+    padding: 0 5px;
+}
+.footer-title {
+    font-family: 'General Sans', -apple-system, sans-serif;
+    font-size: 1.4rem;
+    font-weight: 400;
+    color: #ffffff;
+    letter-spacing: -0.015em;
+    margin: 0;
+}
+.footer-divider {
+    border: none;
+    height: 1px;
+    background-color: rgba(255, 255, 255, 0.2);
+    margin: 1.6rem 0;
+    width: 100%;
+}
+.footer-bottom {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+    padding: 0 5px;
+}
+.footer-socials { display: flex; gap: 1.25rem; align-items: center; flex: 1; }
+.social-icon {
+    color: rgba(255, 255, 255, 0.55);
+    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+}
+.social-icon:hover { color: #ffffff; transform: translateY(-2px); }
+.footer-links { display: flex; gap: 2.8rem; justify-content: center; align-items: center; flex: 2; }
+.footer-link {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: #ffffff;
+    text-decoration: none;
+    letter-spacing: 0.03em;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+.footer-link:hover { opacity: 0.75; transform: translateY(-1px); }
+.footer-copyright {
+    font-family: 'Outfit', sans-serif;
+    font-size: 0.95rem;
+    font-weight: 400;
+    color: rgba(255, 255, 255, 0.45);
+    text-align: right;
+    flex: 1;
+    letter-spacing: 0.02em;
+}
+
+.footer-logo-wrap {
+    position: absolute;
+    bottom: 20px;
+    left: 0;
+    right: 0;
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 3;
+}
+.footer-logo-text {
+    font-family: 'General Sans', -apple-system, sans-serif;
+    font-size: 27vw;            /* 7 letters instead of Loopstack's 9, so it still spans the width */
+    font-weight: 400;
+    color: #ffffff;
+    letter-spacing: -0.03em;
+    margin-right: -0.03em;
+    transform: translateX(-20px);
+    line-height: 0.8;
+    text-align: center;
+    width: 100%;
+    pointer-events: none;
+    opacity: 0.95;
+    white-space: nowrap;
+}
+
+.video-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100vw;
+    height: 90%;
+    overflow: hidden;
+    z-index: -1;
+}
+#bg-video { width: 100%; height: 110%; object-fit: cover; display: block; }
+
+/* ============ 2. Portfolio below, same visual language ============ */
+.content { position: relative; z-index: 1; padding-inline: 20px; }
+.section { max-width: 1100px; margin: 0 auto; padding-block: clamp(5rem, 12vw, 9rem); border-top: 1px solid var(--line); }
+.section:first-child { border-top: 0; }
+.kicker { font: 500 0.85rem/1 var(--display); letter-spacing: 0.06em; text-transform: uppercase; color: var(--neon); text-shadow: 0 0 8px rgba(57, 255, 20, 0.45); display: inline-flex; align-items: center; gap: 0.7rem; }
+.kicker .blinking-dot { width: 7px; height: 7px; }
+.section-title { margin-top: 1.5rem; font: 400 clamp(2.2rem, 5vw, 3.6rem)/1.1 var(--serif); letter-spacing: -0.015em; max-width: 18ch; text-wrap: balance; }
+.section-title em { font-style: italic; color: var(--muted); }
+.lede { margin-top: 1.75rem; max-width: 60ch; font: 300 1.15rem/1.65 var(--sans); color: var(--muted); }
+
+/* about: facts row */
+.facts { margin-top: 3.5rem; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); border-top: 1px solid var(--line); }
+.fact { padding: 1.5rem 1.25rem 0 0; display: grid; gap: 0.4rem; align-content: start; }
+.fact b { font: 400 1.4rem/1.2 var(--display); letter-spacing: -0.015em; }
+.fact span { font: 400 0.95rem/1.5 var(--sans); color: var(--faint); }
+
+/* projects: editorial rows */
+.projects { margin-top: 3.5rem; list-style: none; border-bottom: 1px solid var(--line); }
+.project { border-top: 1px solid var(--line); padding-block: 2.25rem; display: grid; grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.6fr); gap: 1.5rem 3rem; }
+.project-head { display: grid; gap: 0.6rem; align-content: start; }
+.project-meta { font: 400 0.8rem/1.4 var(--display); letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint); }
+.project h3 { font: 400 clamp(1.6rem, 3vw, 2.2rem)/1.15 var(--serif); letter-spacing: -0.015em; transition: transform 0.5s var(--ease), color 0.5s var(--ease); }
+.project:hover h3 { transform: translateX(10px); }
+.project-body { display: grid; gap: 1.25rem; align-content: start; }
+.project-body p { font: 300 1.05rem/1.65 var(--sans); color: var(--muted); max-width: 62ch; }
+.pills { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.pills span { font: 400 0.82rem/1 var(--sans); letter-spacing: 0.02em; padding: 0.55rem 0.95rem; border: 1px solid var(--border); border-radius: 9999px; color: rgba(255, 255, 255, 0.75); }
+.notes { list-style: none; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem 2rem; margin-top: 0.5rem; }
+.notes li { display: grid; gap: 0.35rem; padding-top: 1rem; border-top: 1px solid rgba(255, 255, 255, 0.1); }
+.notes h4 { font: 500 1rem/1.35 var(--display); }
+.notes p { font-size: 0.95rem; }
+
+/* stack + path */
+.columns { margin-top: 3.5rem; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 2rem; }
+.columns h3 { font: 500 0.8rem/1 var(--display); letter-spacing: 0.06em; text-transform: uppercase; color: var(--faint); margin-bottom: 1rem; }
+.columns ul { list-style: none; display: grid; gap: 0.45rem; font: 400 1.05rem/1.4 var(--sans); }
+.path { margin-top: 3.5rem; list-style: none; border-bottom: 1px solid var(--line); }
+.path li { border-top: 1px solid var(--line); padding-block: 1.25rem; display: grid; grid-template-columns: 9rem minmax(0, 1fr); gap: 1.5rem; font: 300 1.05rem/1.6 var(--sans); color: var(--muted); }
+.path time { font: 400 0.9rem/1.8 var(--display); letter-spacing: 0.04em; color: var(--white); }
+.back { margin-top: 3rem; display: flex; justify-content: center; }
+
+/* ============ Reveals ============ */
+.hero-title .word-wrapper, .section-title .word-wrapper {
+    display: inline-block;
+    overflow: hidden;
+    vertical-align: bottom;
+    padding-bottom: 0.15em;
+    margin-bottom: -0.15em;
+}
+.hero-title .word-inner, .section-title .word-inner {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(105%);
+    filter: blur(20px);
+}
+.hero-title .word-inner, .section-title.in .word-inner { animation: word-reveal-mask 1.3s cubic-bezier(0.05, 0.9, 0.1, 1) forwards; }
+@keyframes word-reveal-mask {
+    0%   { opacity: 0; transform: translateY(105%); filter: blur(20px); }
+    30%  { opacity: 1; }
+    100% { opacity: 1; transform: translateY(0); filter: blur(0); }
+}
+.footer-logo-text .letter-wrapper { display: inline-block; overflow: hidden; vertical-align: bottom; line-height: 0.8; }
+.footer-logo-text .letter-inner {
+    display: inline-block;
+    opacity: 0;
+    transform: translateX(-105%);
+    filter: blur(20px);
+    animation: letter-reveal-mask 1.2s cubic-bezier(0.05, 0.9, 0.1, 1) forwards;
+}
+@keyframes letter-reveal-mask {
+    0%   { opacity: 0; transform: translateX(-105%); filter: blur(20px); }
+    25%  { opacity: 1; }
+    100% { opacity: 0.95; transform: translateX(0); filter: blur(0); }
+}
+.rise { opacity: 0; transform: translateY(28px); transition: opacity 1s var(--ease), transform 1s var(--ease); }
+.rise.in { opacity: 1; transform: none; }
+.no-js .rise { opacity: 1; transform: none; }
+
+/* ============ Cursor ============ */
+.glass-cursor-card {
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 99999;
+    pointer-events: none;
+    padding: 0.75rem 1.5rem;
+    background: rgba(255, 255, 255, 0.08);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    border-radius: 9999px;
+    box-shadow: inset 0 1px 0 0 rgba(255, 255, 255, 0.15);
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    will-change: transform, opacity;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), background 0.35s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.35s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.35s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.glass-cursor-card.active { opacity: 1; }
+.cursor-card-text {
+    font-family: 'General Sans', -apple-system, sans-serif;
+    font-size: 0.85rem;
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: #39FF14;
+    text-transform: uppercase;
+    white-space: nowrap;
+    text-shadow: 0 0 8px rgba(57, 255, 20, 0.45);
+}
+.cursor-card-text .text-white { color: #ffffff; text-shadow: 0 1px 3px rgba(0, 0, 0, 0.25); }
+.cursor-ring-outline {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 48px;
+    height: 48px;
+    border: 1.5px solid rgba(255, 255, 255, 0.45);
+    border-radius: 50%;
+    z-index: 99998;
+    pointer-events: none;
+    transform: translate(-50%, -50%) scale(0);
+    opacity: 0;
+    will-change: transform, opacity;
+    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
+}
+.cursor-ring-outline.active { opacity: 1; }
+.cursor-ring-outline.expanded { border-color: rgba(255, 255, 255, 0.15); }
+
+/* ============ Small screens ============ */
+@media (max-width: 760px) {
+    .hero-content { padding-top: 10vh; }
+    .hero-title { font-size: 2.1rem; }
+    .hero-btn { padding: 1.1rem 2rem; font-size: 1rem; }
+    .footer-title { font-size: 1.1rem; }
+    .footer-bottom { flex-wrap: wrap; row-gap: 1rem; }
+    .footer-links { order: 3; flex: 1 1 100%; justify-content: flex-start; gap: 1.5rem; }
+    .facts, .columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .project, .notes { grid-template-columns: minmax(0, 1fr); }
+    .path li { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
+}
+@media (hover: none), (pointer: coarse) {
+    .glass-cursor-card, .cursor-ring-outline { display: none; }
+}
+@media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after { animation: none !important; transition: none !important; }
+    .word-inner, .letter-inner, .rise { opacity: 1 !important; transform: none !important; filter: none !important; }
+}
+</style>
 <script>
-  // Language and the reveal hook are set before first paint, so nothing flashes.
-  (() => {
-    let saved = null;
-    try { saved = localStorage.getItem('lang'); } catch (e) { /* storage blocked: use the browser language */ }
-    const root = document.documentElement;
-    root.lang = saved || ((navigator.language || 'en').toLowerCase().startsWith('es') ? 'es' : 'en');
-    root.classList.add('js');
-  })();
+    // Language before first paint; "no-js" is removed by the main script.
+    (() => {
+        let saved = null;
+        try { saved = localStorage.getItem('lang'); } catch (e) { /* storage blocked: use the browser language */ }
+        document.documentElement.lang = saved || ((navigator.language || 'en').toLowerCase().startsWith('es') ? 'es' : 'en');
+    })();
 </script>
-<script src="main.js" defer></script>
 </head>
-<body>
-<a class="skip" href="#main"><span data-l="en">Skip to content</span><span data-l="es">Ir al contenido</span></a>
+<body class="no-js">
 
-<header class="top">
-  <div class="top-in">
-    <a class="brand" href="#main"><span class="brand-mark" aria-hidden="true">MS</span>Marco Sobrido</a>
-    <nav class="nav" aria-label="Sections">
-      <a href="#build"><span data-l="en">Skills</span><span data-l="es">Habilidades</span></a>
-      <a href="#workflow"><span data-l="en">How I work</span><span data-l="es">Cómo trabajo</span></a>
-      <a href="#hackathons"><span data-l="en">Hackathons</span><span data-l="es">Hackatones</span></a>
-      <a href="#projects"><span data-l="en">Projects</span><span data-l="es">Proyectos</span></a>
-      <a href="#path"><span data-l="en">Path</span><span data-l="es">Trayecto</span></a>
-    </nav>
-    <div class="top-actions">
-      <div class="lang" role="group" aria-label="Language / Idioma">
-        <button type="button" data-set="es" aria-pressed="false">ES</button>
+<section class="screen" aria-label="Marco Sobrido">
+    <img src="https://api.getlayers.ai/storage/v1/object/public/public/assets/loopstack-f8c64439bf/black_gradient.svg" alt="" id="top-gradient">
+
+    <div class="lang" role="group" aria-label="Language / Idioma">
         <button type="button" data-set="en" aria-pressed="true">EN</button>
-      </div>
-      <a class="btn btn-primary" href="#contact"><span data-l="en">Contact</span><span data-l="es">Contacto</span></a>
+        <button type="button" data-set="es" aria-pressed="false">ES</button>
     </div>
-  </div>
-</header>
 
-<div class="frame">
-<main id="main">
+    <main class="hero-content" id="top">
+        <h1 class="hero-title">
+            <span data-l="en">Full-stack developer, open <br> to remote junior roles</span>
+            <span data-l="es">Desarrollador full-stack, disponible <br> para puestos junior remotos</span>
+        </h1>
+        <a class="hero-btn" href="cv.pdf" target="_blank" rel="noopener">
+            <span class="btn-text"><span data-l="en">Download my CV</span><span data-l="es">Descargar mi CV</span></span>
+            <span class="blinking-dot"></span>
+        </a>
+    </main>
 
-  <section class="hero" aria-labelledby="hero-name">
-    <canvas id="net" aria-hidden="true"></canvas>
-    <div class="hero-in wrap">
-      <div>
-        <p class="status"><span class="live-dot" aria-hidden="true"></span>
-          <span data-l="en">Open to remote junior roles · Argentina / LatAm</span>
-          <span data-l="es">Disponible para puestos junior remotos · Argentina / LatAm</span>
+    <footer class="footer-container">
+        <div class="footer-top">
+            <h2 class="footer-title"><span data-l="en">Stay in Touch</span><span data-l="es">Hablemos</span></h2>
+            <p class="footer-title quote">Trace. Build. Ship.</p>
+        </div>
+
+        <hr class="footer-divider">
+
+        <div class="footer-bottom">
+            <div class="footer-socials">
+                <a href="https://linkedin.com/in/marco-sobrido" target="_blank" rel="noopener" aria-label="LinkedIn" class="social-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-2-2 2 2 0 0 0-2 2v7h-4v-7a6 6 0 0 1 6-6z"></path><rect x="2" y="9" width="4" height="12"></rect><circle cx="4" cy="4" r="2"></circle></svg>
+                </a>
+                <a href="https://github.com/M4RQUIT0S" target="_blank" rel="noopener" aria-label="GitHub" class="social-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"></path><path d="M9 18c-4.51 2-5-2-7-2"></path></svg>
+                </a>
+                <a href="mailto:marcosobrido@gmail.com" aria-label="Email" class="social-icon">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"></rect><path d="m22 7-10 6L2 7"></path></svg>
+                </a>
+            </div>
+
+            <nav class="footer-links" aria-label="Sections">
+                <a href="#about" class="footer-link"><span data-l="en">About</span><span data-l="es">Sobre mí</span></a>
+                <a href="#projects" class="footer-link"><span data-l="en">Projects</span><span data-l="es">Proyectos</span></a>
+                <a href="#stack" class="footer-link">Stack</a>
+                <a href="mailto:marcosobrido@gmail.com" class="footer-link"><span data-l="en">Contact</span><span data-l="es">Contacto</span></a>
+            </nav>
+
+            <div class="footer-copyright">© 2026 Marco Sobrido</div>
+        </div>
+    </footer>
+
+    <div class="footer-logo-wrap" aria-hidden="true">
+        <p class="footer-logo-text">Sobrido</p>
+    </div>
+
+    <div class="video-container" aria-hidden="true">
+        <video autoplay muted loop playsinline id="bg-video">
+            <source src="https://api.getlayers.ai/storage/v1/object/public/public/assets/loopstack-f8c64439bf/flower.mp4" type="video/mp4">
+        </video>
+    </div>
+</section>
+
+<div class="content">
+    <section class="section" id="about" aria-labelledby="about-title">
+        <span class="kicker"><span class="blinking-dot" aria-hidden="true"></span><span data-l="en">About</span><span data-l="es">Sobre mí</span></span>
+        <h2 class="section-title" id="about-title">
+            <span data-l="en">I build web platforms end to end</span>
+            <span data-l="es">Construyo plataformas web de punta a punta</span>
+        </h2>
+        <p class="lede rise">
+            <span data-l="en">I'm Marco Sobrido Alvano, a Computer Engineering student at UADE in Buenos Aires. I work from the database rules to the RFID reader in the user's hand, I trace bugs to their root cause, and I use AI agents every day while keeping the decisions about data and security to myself.</span>
+            <span data-l="es">Soy Marco Sobrido Alvano, estudiante de Ingeniería en Informática en UADE, Buenos Aires. Trabajo desde las reglas de la base de datos hasta el lector RFID en la mano del usuario, rastreo los bugs hasta su causa raíz y uso agentes de IA a diario, sin delegar las decisiones sobre datos y seguridad.</span>
         </p>
-        <h1 id="hero-name"><span class="split">Marco</span> <span class="split accent">Sobrido</span></h1>
-        <p class="role fade" style="--d:3"><span data-l="en">Full-Stack Developer</span><span data-l="es">Desarrollador Full-Stack</span></p>
-        <p class="lede fade" style="--d:4">
-          <span data-l="en">Computer Engineering student at UADE. I build web platforms end to end, from the database rules to the RFID reader in the user's hand, and I make every record traceable back to where it came from.</span>
-          <span data-l="es">Estudiante de Ingeniería en Informática en UADE. Construyo plataformas web de punta a punta, desde las reglas de la base de datos hasta el lector RFID en la mano del usuario, y hago que cada registro se pueda rastrear hasta su origen.</span>
-        </p>
-        <div class="chips fade" style="--d:5">
-          <span class="chip">TypeScript</span><span class="chip">Next.js</span><span class="chip">React</span><span class="chip">Supabase</span><span class="chip">PostgreSQL</span><span class="chip">Python</span><span class="chip">Java</span><span class="chip">Playwright</span><span class="chip">Docker</span><span class="chip">Google Cloud</span><span class="chip">Web Bluetooth</span><span class="chip">Claude Code</span>
+        <div class="facts rise">
+            <div class="fact"><b>Buenos Aires</b><span data-l="en">UTC−3 · remote</span><span data-l="es">UTC−3 · remoto</span></div>
+            <div class="fact"><b>UADE</b><span data-l="en">Computer Engineering, 2025–2030</span><span data-l="es">Ing. en Informática, 2025–2030</span></div>
+            <div class="fact"><b>B2</b><span data-l="en">English, Cambridge First</span><span data-l="es">Inglés, Cambridge First</span></div>
+            <div class="fact"><b><span data-l="en">Spanish</span><span data-l="es">Español</span></b><span data-l="en">native</span><span data-l="es">nativo</span></div>
         </div>
-        <div class="actions fade" style="--d:6">
-          <a class="btn btn-primary" href="#contact"><span data-l="en">Contact</span><span data-l="es">Contacto</span></a>
-          <a class="btn" href="https://linkedin.com/in/marco-sobrido" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
-          <a class="btn" href="https://github.com/M4RQUIT0S" target="_blank" rel="noopener"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>GitHub</a>
-          <a class="btn" href="cv.pdf" target="_blank" rel="noopener"><span data-l="en">CV (PDF)</span><span data-l="es">CV (PDF)</span></a>
-        </div>
-        <div class="stats fade" style="--d:7">
-          <div><b>6</b><span data-l="en">projects built</span><span data-l="es">proyectos construidos</span></div>
-          <div><b>2</b><span data-l="en">hackathons</span><span data-l="es">hackatones</span></div>
-          <div><b>B2</b><span data-l="en">English, Cambridge</span><span data-l="es">inglés, Cambridge</span></div>
-        </div>
-      </div>
+    </section>
 
-      <div class="reader">
-        <div class="stage" id="stage">
-          <div class="tag-shadow" aria-hidden="true"></div>
-          <div class="tilt" id="tilt">
-            <button class="flip" id="flip" type="button" aria-pressed="false" aria-label="Ear tag EID 032 2025 0000 0536. Flip it / Dar vuelta la caravana">
-              <svg class="face front" viewBox="0 0 240 300" aria-hidden="true">
-                <path class="body" fill-rule="evenodd" d="M92 12 a28 28 0 0 1 56 0 V64 H196 a24 24 0 0 1 24 24 V228 a60 60 0 0 1 -60 60 H80 a60 60 0 0 1 -60 -60 V88 a24 24 0 0 1 24 -24 H92 Z M131 22 a11 11 0 1 0 -22 0 a11 11 0 1 0 22 0 Z"/>
-                <text class="small" x="120" y="100" text-anchor="middle">AR · 032 · FDX-B</text>
-                <text class="stamp" x="120" y="172" text-anchor="middle" font-size="64">MSA</text>
-                <text class="stamp" x="120" y="226" text-anchor="middle" font-size="40">0536</text>
-                <text class="small" x="120" y="262" text-anchor="middle">UADE · FULL-STACK</text>
-              </svg>
-              <svg class="face back" viewBox="0 0 240 300" aria-hidden="true">
-                <path class="body" fill-rule="evenodd" d="M92 12 a28 28 0 0 1 56 0 V64 H196 a24 24 0 0 1 24 24 V228 a60 60 0 0 1 -60 60 H80 a60 60 0 0 1 -60 -60 V88 a24 24 0 0 1 24 -24 H92 Z M131 22 a11 11 0 1 0 -22 0 a11 11 0 1 0 22 0 Z"/>
-                <text class="small" x="120" y="100" text-anchor="middle">GITHUB.COM/</text>
-                <text class="stamp" x="120" y="138" text-anchor="middle" font-size="34">M4RQUIT0S</text>
-                <g class="bars"><rect x="50" y="150" width="2" height="56"/><rect x="58" y="150" width="3" height="56"/><rect x="66" y="150" width="4" height="56"/><rect x="71" y="150" width="5" height="56"/><rect x="79" y="150" width="2" height="56"/><rect x="87" y="150" width="3" height="56"/><rect x="92" y="150" width="4" height="56"/><rect x="100" y="150" width="5" height="56"/><rect x="108" y="150" width="2" height="56"/><rect x="113" y="150" width="3" height="56"/><rect x="121" y="150" width="4" height="56"/><rect x="129" y="150" width="5" height="56"/><rect x="134" y="150" width="2" height="56"/><rect x="142" y="150" width="3" height="56"/><rect x="150" y="150" width="4" height="56"/><rect x="155" y="150" width="5" height="56"/><rect x="163" y="150" width="2" height="56"/><rect x="171" y="150" width="3" height="56"/><rect x="176" y="150" width="4" height="56"/><rect x="184" y="150" width="5" height="56"/></g>
-                <text class="small" x="120" y="226" text-anchor="middle">032202500000536</text>
-                <text class="small" x="120" y="262" text-anchor="middle">NEXT · TS · SUPABASE</text>
-              </svg>
-            </button>
-          </div>
-        </div>
-        <div class="console-head">
-          <span class="eyebrow"><span data-l="en">Reader</span><span data-l="es">Lector</span> · Web Bluetooth</span>
-          <button class="scan" id="scan" type="button"><span data-l="en">Scan tag</span><span data-l="es">Leer caravana</span></button>
-        </div>
-        <div class="console" id="console" aria-live="polite">
-          <div class="dim">$ navigator.bluetooth.requestDevice()</div>
-          <div>connected · Nordic UART service</div>
-          <div>rx 032202500000536</div>
-          <div>lookup EID… <span class="ok">record found</span></div>
-          <div class="dim">stack: Next.js · TypeScript · Supabase · Python</div>
-        </div>
-        <p class="caption">
-          <span data-l="en">A replay of how AgroTrace reads a real RFID ear tag from the browser. Click the tag to flip it.</span>
-          <span data-l="es">Una recreación de cómo AgroTrace lee una caravana RFID real desde el navegador. Hacé clic en la caravana para darla vuelta.</span>
-        </p>
-      </div>
-    </div>
-  </section>
+    <section class="section" id="projects" aria-labelledby="projects-title">
+        <span class="kicker"><span class="blinking-dot" aria-hidden="true"></span><span data-l="en">Selected work</span><span data-l="es">Proyectos</span></span>
+        <h2 class="section-title" id="projects-title">
+            <span data-l="en">Things I have shipped</span>
+            <span data-l="es">Lo que construí</span>
+        </h2>
+        <ol class="projects">
+            <li class="project rise">
+                <div class="project-head">
+                    <span class="project-meta"><span data-l="en">2025 – now · built solo</span><span data-l="es">2025 – hoy · desarrollo propio</span></span>
+                    <h3>AgroTrace</h3>
+                </div>
+                <div class="project-body">
+                    <p><span data-l="en">A multi-tenant platform for livestock traceability in Argentina. Each animal carries an electronic ear tag: AgroTrace reads it in the field, stores what happened to the animal and sends its movements to SENASA, the national agri-food authority.</span><span data-l="es">Una plataforma multi-establecimiento de trazabilidad ganadera en Argentina. Cada animal lleva una caravana electrónica: AgroTrace la lee en el campo, guarda lo que le pasó al animal y envía sus movimientos a SENASA.</span></p>
+                    <ul class="notes">
+                        <li><h4><span data-l="en">Browsers can't reach every reader</span><span data-l="es">El navegador no llega a todos los lectores</span></h4><p><span data-l="en">Bluetooth Classic (SPP) readers are out of any browser's reach, so the app runs as a PWA over BLE and has a native Android path for SPP.</span><span data-l="es">Los lectores Bluetooth Clásico (SPP) quedan fuera del alcance de cualquier navegador, así que la app funciona como PWA por BLE y tiene una vía Android nativa para SPP.</span></p></li>
+                        <li><h4><span data-l="en">Writes that failed silently</span><span data-l="es">Escrituras que fallaban sin aviso</span></h4><p><span data-l="en">Lost edits traced to supabase-js returning server rejections instead of throwing them. Fixed the sync queue and added regression tests.</span><span data-l="es">Ediciones perdidas que rastreé hasta supabase-js, que devuelve los rechazos del servidor en vez de lanzarlos. Corregí la cola de sincronización y agregué tests de regresión.</span></p></li>
+                        <li><h4><span data-l="en">Permissions in the database</span><span data-l="es">Permisos en la base de datos</span></h4><p><span data-l="en">Roles enforced with Postgres RLS, a strict Content-Security-Policy and exports safe from formula injection.</span><span data-l="es">Roles aplicados con RLS de Postgres, una Content-Security-Policy estricta y exportaciones a salvo de inyección de fórmulas.</span></p></li>
+                        <li><h4><span data-l="en">A bot for a portal with no API</span><span data-l="es">Un bot para un portal sin API</span></h4><p><span data-l="en">A Playwright service submits the movement reports, in Docker with health checks on Google Cloud Run.</span><span data-l="es">Un servicio con Playwright carga los movimientos, en Docker con health checks sobre Google Cloud Run.</span></p></li>
+                    </ul>
+                    <div class="pills"><span>Next.js</span><span>TypeScript</span><span>Supabase</span><span>Web Bluetooth</span><span>Playwright</span><span>Cloud Run</span></div>
+                </div>
+            </li>
+            <li class="project rise">
+                <div class="project-head">
+                    <span class="project-meta">Platanus Hack 26 · <span data-l="en">May 2026 · team</span><span data-l="es">mayo 2026 · equipo</span></span>
+                    <h3>Vibefence</h3>
+                </div>
+                <div class="project-body">
+                    <p><span data-l="en">AI Security track, 36 hours, more than 100 hackers. A runtime security layer for AI coding agents: it intercepts every tool call and blocks shell commands whose authority comes from untrusted sources, such as a README with a prompt injection.</span><span data-l="es">Track de seguridad en IA, 36 horas, más de 100 participantes. Una capa de seguridad para agentes de programación con IA: intercepta cada llamada a herramientas y bloquea los comandos cuya autoridad viene de fuentes no confiables, como un README con prompt injection.</span></p>
+                    <div class="pills"><span>Python</span><span>FastAPI</span><span>Next.js</span><span>MCP</span></div>
+                </div>
+            </li>
+            <li class="project rise">
+                <div class="project-head">
+                    <span class="project-meta">Serious Game Hackathon · <span data-l="en">Jul 2026 · team of 5</span><span data-l="es">jul 2026 · equipo de 5</span></span>
+                    <h3>El Ateneo: Cuentos del Splendid</h3>
+                </div>
+                <div class="project-body">
+                    <p><span data-l="en">A cozy management game set in El Ateneo Grand Splendid, the 1919 theatre turned bookstore: a playable 3-level browser prototype and a 1:1 recreation of the building in Unreal Engine 5.</span><span data-l="es">Un juego de gestión ambientado en El Ateneo Grand Splendid, el teatro de 1919 convertido en librería: prototipo jugable de 3 niveles en el navegador y una recreación 1:1 del edificio en Unreal Engine 5.</span></p>
+                    <div class="pills"><span>HTML5 Canvas</span><span>WebAudio</span><span>Unreal Engine 5</span></div>
+                </div>
+            </li>
+            <li class="project rise">
+                <div class="project-head">
+                    <span class="project-meta">2026 · Next.js 16 · React 19</span>
+                    <h3><span data-l="en">E-commerce storefronts</span><span data-l="es">Tiendas e-commerce</span></h3>
+                </div>
+                <div class="project-body">
+                    <p><span data-l="en">An apparel store and a sport-shooting retailer. Checkout recalculates every price on the server and RLS makes orders insert-only, so no customer can read another's orders. Per-product legal sale rules and ARS prices on a daily exchange rate.</span><span data-l="es">Una tienda de ropa y una armería deportiva. El checkout recalcula cada precio en el servidor y RLS hace que los pedidos solo se puedan insertar, así ningún cliente lee los de otro. Reglas legales de venta por producto y precios en pesos con el tipo de cambio del día.</span></p>
+                    <div class="pills"><span>Supabase</span><span>PostgreSQL</span><span>Vercel</span></div>
+                </div>
+            </li>
+            <li class="project rise">
+                <div class="project-head">
+                    <span class="project-meta"><span data-l="en">Programming III · Aug 2026 · team of 3</span><span data-l="es">Programación III · ago 2026 · equipo de 3</span></span>
+                    <h3><span data-l="en">Graph algorithms API</span><span data-l="es">API de algoritmos sobre grafos</span></h3>
+                </div>
+                <div class="project-body">
+                    <p><span data-l="en">A Spring Boot API over a metro fibre-optic network in Neo4j: BFS, DFS, Dijkstra, Floyd–Warshall, Prim and Kruskal, 0/1 knapsack, backtracking and branch and bound, with JUnit tests checked by hand.</span><span data-l="es">Una API en Spring Boot sobre una red de fibra óptica en Neo4j: BFS, DFS, Dijkstra, Floyd–Warshall, Prim y Kruskal, mochila 0/1, backtracking y branch and bound, con tests JUnit verificados a mano.</span></p>
+                    <div class="pills"><span>Java</span><span>Spring Boot</span><span>Neo4j</span><span>JUnit</span></div>
+                </div>
+            </li>
+        </ol>
+    </section>
 
-  <section class="section wrap" id="build" aria-labelledby="build-title">
-    <div class="sec-head">
-      <span class="eyebrow"><span data-l="en">Capabilities</span><span data-l="es">Capacidades</span></span>
-      <h2 id="build-title"><span data-l="en" class="split">What I build</span><span data-l="es" class="split">Qué construyo</span></h2>
-    </div>
-    <div class="grid">
-      <article class="cap fade" style="--d:0">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m12 2 10 5-10 5L2 7z"/><path d="m2 17 10 5 10-5"/><path d="m2 12 10 5 10-5"/></svg>
-        <h3><span data-l="en">Full-stack web apps</span><span data-l="es">Aplicaciones web full-stack</span></h3>
-        <p><span data-l="en">Next.js, React and TypeScript on Supabase. Multi-tenant platforms with roles, invite codes and Google sign-in.</span><span data-l="es">Next.js, React y TypeScript sobre Supabase. Plataformas multi-cliente con roles, códigos de invitación y acceso con Google.</span></p>
-      </article>
-      <article class="cap fade" style="--d:1">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><path d="m9 12 2 2 4-4"/></svg>
-        <h3><span data-l="en">Security in the database</span><span data-l="es">Seguridad en la base de datos</span></h3>
-        <p><span data-l="en">Postgres Row-Level Security, insert-only orders, prices recalculated on the server, a strict CSP and exports safe from formula injection.</span><span data-l="es">Row-Level Security en Postgres, pedidos que solo se insertan, precios recalculados en el servidor, CSP estricta y exportaciones a salvo de inyección de fórmulas.</span></p>
-      </article>
-      <article class="cap fade" style="--d:2">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m7 7 10 10-5 5V2l5 5L7 17"/></svg>
-        <h3><span data-l="en">Hardware in the browser</span><span data-l="es">Hardware en el navegador</span></h3>
-        <p><span data-l="en">RFID readers over Web Bluetooth (BLE), installable PWAs and offline-first sync with retries and an audit trail.</span><span data-l="es">Lectores RFID por Web Bluetooth (BLE), PWAs instalables y sincronización offline-first con reintentos y registro de auditoría.</span></p>
-      </article>
-      <article class="cap fade" style="--d:3">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="8" width="18" height="12" rx="2"/><path d="M12 8V4H8"/><path d="M9 13v2M15 13v2"/></svg>
-        <h3><span data-l="en">Automation and bots</span><span data-l="es">Automatización y bots</span></h3>
-        <p><span data-l="en">Playwright services for portals with no public API, packaged in Docker with health checks and deployed to Google Cloud Run.</span><span data-l="es">Servicios con Playwright para portales sin API pública, empaquetados en Docker con health checks y desplegados en Google Cloud Run.</span></p>
-      </article>
-      <article class="cap fade" style="--d:4">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 13.5 6.8 4M15.4 6.5l-6.8 4"/></svg>
-        <h3><span data-l="en">Backend and algorithms</span><span data-l="es">Backend y algoritmos</span></h3>
-        <p><span data-l="en">Java and Spring Boot REST APIs, graph algorithms on Neo4j, dynamic programming and branch and bound, tested with JUnit.</span><span data-l="es">APIs REST en Java y Spring Boot, algoritmos sobre grafos en Neo4j, programación dinámica y branch and bound, con tests en JUnit.</span></p>
-      </article>
-      <article class="cap fade" style="--d:5">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.1L19 10l-5.1 1.9L12 17l-1.9-5.1L5 10l5.1-1.9z"/><path d="M19 17v4M17 19h4"/></svg>
-        <h3><span data-l="en">AI tooling and agent security</span><span data-l="es">Herramientas de IA y seguridad de agentes</span></h3>
-        <p><span data-l="en">Daily work with Claude Code and Codex, plus MCP servers. At Platanus Hack my team built a security layer that stops coding agents from running injected commands.</span><span data-l="es">Trabajo a diario con Claude Code y Codex, y con servidores MCP. En Platanus Hack mi equipo construyó una capa de seguridad que impide que los agentes ejecuten comandos inyectados.</span></p>
-      </article>
-    </div>
-  </section>
-
-  <section class="section wrap" id="workflow" aria-labelledby="workflow-title">
-    <div class="sec-head">
-      <span class="eyebrow"><span data-l="en">How I work</span><span data-l="es">Cómo trabajo</span></span>
-      <h2 id="workflow-title"><span data-l="en" class="split">Agents write, I decide and verify</span><span data-l="es" class="split">Los agentes escriben, yo decido y verifico</span></h2>
-      <p><span data-l="en">I use AI agents for most of the typing. The decisions about data, security and architecture stay with me, and nothing counts as done until it is tested and written down.</span><span data-l="es">Uso agentes de IA para la mayor parte del tipeo. Las decisiones sobre datos, seguridad y arquitectura quedan en mis manos, y nada está terminado hasta que está probado y documentado.</span></p>
-    </div>
-    <ol class="steps">
-      <li class="step fade" style="--d:0">
-        <span class="step-n" aria-hidden="true">01</span>
-        <div>
-          <h3><span data-l="en">Start from shared memory</span><span data-l="es">Partir de una memoria compartida</span></h3>
-          <p><span data-l="en">One Obsidian vault holds every project's decisions, constraints and past bugs. Claude Code and Codex both read it when a session starts, and each repo has its own instruction file with the hard rules.</span><span data-l="es">Un vault de Obsidian guarda las decisiones, restricciones y bugs pasados de cada proyecto. Claude Code y Codex lo leen al empezar cada sesión, y cada repo tiene su archivo de instrucciones con las reglas firmes.</span></p>
-          <div class="chips"><span class="chip">Obsidian</span><span class="chip">CLAUDE.md</span><span class="chip">AGENTS.md</span></div>
+    <section class="section" id="stack" aria-labelledby="stack-title">
+        <span class="kicker"><span class="blinking-dot" aria-hidden="true"></span>Stack</span>
+        <h2 class="section-title" id="stack-title">
+            <span data-l="en">Tools I have shipped with</span>
+            <span data-l="es">Herramientas con las que trabajo</span>
+        </h2>
+        <div class="columns rise">
+            <div><h3><span data-l="en">Languages</span><span data-l="es">Lenguajes</span></h3><ul><li>TypeScript</li><li>JavaScript</li><li>Python</li><li>Java</li><li>SQL</li></ul></div>
+            <div><h3>Web &amp; backend</h3><ul><li>React, Next.js</li><li>Node.js, REST</li><li>Spring Boot</li><li>Tailwind CSS</li><li>PWAs, Web Bluetooth</li></ul></div>
+            <div><h3><span data-l="en">Data &amp; cloud</span><span data-l="es">Datos y nube</span></h3><ul><li>PostgreSQL, Supabase</li><li>Neo4j, SQL Server</li><li>Google Cloud Run</li><li>Vercel, Docker</li></ul></div>
+            <div><h3><span data-l="en">Practice</span><span data-l="es">Práctica</span></h3><ul><li>Git &amp; GitHub</li><li>Playwright</li><li>Linux (Red Hat)</li><li>Claude Code, Codex</li><li>Unreal Engine 5</li></ul></div>
         </div>
-      </li>
-      <li class="step fade" style="--d:1">
-        <span class="step-n" aria-hidden="true">02</span>
-        <div>
-          <h3><span data-l="en">Plan in phases</span><span data-l="es">Planificar por fases</span></h3>
-          <p><span data-l="en">Before code: requirements and use cases, the data model, and a plan where every phase ends in something I can check.</span><span data-l="es">Antes del código: requerimientos y casos de uso, el modelo de datos y un plan en el que cada fase termina en algo que puedo verificar.</span></p>
-          <div class="chips"><span class="chip">Plan mode</span><span class="chip">SRS</span><span class="chip">SQL migrations</span></div>
+        <ol class="path rise">
+            <li><time datetime="2024">2024</time><span data-l="en">Cambridge B2 First certificate in English.</span><span data-l="es">Certificado Cambridge B2 First de inglés.</span></li>
+            <li><time datetime="2025">2025</time><span data-l="en">Started Computer Engineering at UADE and started building AgroTrace.</span><span data-l="es">Empecé Ingeniería en Informática en UADE y empecé a construir AgroTrace.</span></li>
+            <li><time datetime="2026">2026</time><span data-l="en">Red Hat System Administration I (RH124), SAP ERP Fundamentals, two hackathons.</span><span data-l="es">Red Hat System Administration I (RH124), SAP ERP Fundamentals, dos hackatones.</span></li>
+            <li><time datetime="2026-10"><span data-l="en">Now</span><span data-l="es">Hoy</span></time><span data-l="en">Looking for my first role on a remote team.</span><span data-l="es">Busco mi primer puesto en un equipo remoto.</span></li>
+        </ol>
+        <div class="back">
+            <a class="hero-btn" href="#top">
+                <span class="btn-text"><span data-l="en">Say hello</span><span data-l="es">Escribime</span></span>
+                <span class="blinking-dot"></span>
+            </a>
         </div>
-      </li>
-      <li class="step fade" style="--d:2">
-        <span class="step-n" aria-hidden="true">03</span>
-        <div>
-          <h3><span data-l="en">Build with agents and a harness</span><span data-l="es">Construir con agentes y reglas</span></h3>
-          <p><span data-l="en">Skills encode the conventions, hooks run on session start and end, and MCP connects the agent to GitHub, Supabase, Vercel and the browser. The parts that matter, like permissions and prices, live on the server.</span><span data-l="es">Las skills guardan las convenciones, los hooks corren al inicio y al cierre de cada sesión, y MCP conecta al agente con GitHub, Supabase, Vercel y el navegador. Lo crítico, como permisos y precios, vive en el servidor.</span></p>
-          <div class="chips"><span class="chip">Claude Code</span><span class="chip">Skills</span><span class="chip">Hooks</span><span class="chip">MCP</span></div>
-        </div>
-      </li>
-      <li class="step fade" style="--d:3">
-        <span class="step-n" aria-hidden="true">04</span>
-        <div>
-          <h3><span data-l="en">Verify in layers</span><span data-l="es">Verificar por capas</span></h3>
-          <p><span data-l="en">Tests that run against the real database, a regression test for every bug I trace, Playwright for flows, a code review before merging, and a second review from Codex.</span><span data-l="es">Tests que corren contra la base de datos real, un test de regresión por cada bug que rastreo, Playwright para los flujos, revisión de código antes de mergear y una segunda revisión de Codex.</span></p>
-          <div class="chips"><span class="chip">Playwright</span><span class="chip">JUnit</span><span class="chip">Code review</span><span class="chip">Codex</span></div>
-        </div>
-      </li>
-      <li class="step fade" style="--d:4">
-        <span class="step-n" aria-hidden="true">05</span>
-        <div>
-          <h3><span data-l="en">Write it down</span><span data-l="es">Dejarlo escrito</span></h3>
-          <p><span data-l="en">When a session ends, the decisions and root causes go back to the vault, and a hook rebuilds a knowledge graph of the project. The next session starts where this one stopped.</span><span data-l="es">Al cerrar una sesión, las decisiones y las causas raíz vuelven al vault, y un hook regenera un grafo de conocimiento del proyecto. La siguiente sesión arranca donde terminó esta.</span></p>
-          <div class="chips"><span class="chip">Obsidian</span><span class="chip">graphify</span><span class="chip">Hooks</span></div>
-        </div>
-      </li>
-    </ol>
-    <div class="maxims">
-      <p class="fade"><span data-l="en">The database enforces permissions. The interface only reflects them.</span><span data-l="es">La base de datos aplica los permisos. La interfaz solo los refleja.</span></p>
-      <p class="fade" style="--d:1"><span data-l="en">Anything that costs money is recalculated on the server.</span><span data-l="es">Todo lo que cuesta dinero se recalcula en el servidor.</span></p>
-      <p class="fade" style="--d:2"><span data-l="en">Every bug I fix leaves a test that fails without the fix.</span><span data-l="es">Cada bug que corrijo deja un test que falla sin la corrección.</span></p>
-      <p class="fade" style="--d:3"><span data-l="en">If it isn't written down, the next session starts from zero.</span><span data-l="es">Si no está escrito, la próxima sesión empieza de cero.</span></p>
-    </div>
-  </section>
-
-  <section class="section wrap" id="hackathons" aria-labelledby="hack-title">
-    <div class="sec-head">
-      <span class="eyebrow"><span data-l="en">Hackathons and certifications</span><span data-l="es">Hackatones y certificaciones</span></span>
-      <h2 id="hack-title"><span data-l="en" class="split">Built under pressure</span><span data-l="es" class="split">Construido contra reloj</span></h2>
-    </div>
-    <div class="awards">
-      <article class="award fade">
-        <span class="eyebrow">Platanus Hack 26 · <span data-l="en">May 2026</span><span data-l="es">mayo 2026</span></span>
-        <h3>Vibefence</h3>
-        <p><span data-l="en">AI Security track, 36 hours, more than 100 hackers in Buenos Aires. With my team I built a runtime security layer for AI coding agents: it intercepts every tool call and blocks shell commands whose authority comes from untrusted sources, such as a README with a prompt injection. It also had an agentic red team that verifies access-control bugs, and one-click rollback of destructive migrations.</span><span data-l="es">Track de seguridad en IA, 36 horas, más de 100 participantes en Buenos Aires. Con mi equipo construí una capa de seguridad para agentes de programación con IA: intercepta cada llamada a herramientas y bloquea los comandos cuya autoridad viene de fuentes no confiables, como un README con prompt injection. También tenía un red team agéntico que verifica fallas de control de acceso, y rollback en un clic de migraciones destructivas.</span></p>
-        <div class="chips"><span class="chip">Python</span><span class="chip">FastAPI</span><span class="chip">Next.js</span><span class="chip">Supabase</span><span class="chip">MCP</span></div>
-      </article>
-      <article class="award fade" style="--d:1">
-        <span class="eyebrow">Madrid in Game × BIG Buenos Aires · <span data-l="en">Jul 2026</span><span data-l="es">jul 2026</span></span>
-        <h3>El Ateneo: Cuentos del Splendid</h3>
-        <p><span data-l="en">Serious Game Hackathon on tourism, team of 5. A cozy management game set in El Ateneo Grand Splendid, the 1919 theatre turned bookstore: a playable 3-level browser prototype, NPC stories from verified history, a pitch deck, and my 1:1 recreation of the building in Unreal Engine 5.</span><span data-l="es">Serious Game Hackathon de turismo, equipo de 5. Un juego de gestión ambientado en El Ateneo Grand Splendid, el teatro de 1919 convertido en librería: prototipo jugable de 3 niveles en el navegador, historias de personajes basadas en hechos verificados, un pitch deck y mi recreación 1:1 del edificio en Unreal Engine 5.</span></p>
-        <div class="chips"><span class="chip">HTML5 Canvas</span><span class="chip">WebAudio</span><span class="chip">Unreal Engine 5</span></div>
-      </article>
-    </div>
-    <div class="certs fade">
-      <span>Red Hat System Administration I (RH124) · 2026</span>
-      <span>SAP ERP Fundamentals · 2026</span>
-      <span>Cambridge B2 First · 2024</span>
-    </div>
-  </section>
-
-  <section class="section wrap" id="projects" aria-labelledby="projects-title">
-    <div class="sec-head">
-      <span class="eyebrow"><span data-l="en">Projects</span><span data-l="es">Proyectos</span></span>
-      <h2 id="projects-title"><span data-l="en" class="split">Things I shipped</span><span data-l="es" class="split">Lo que entregué</span></h2>
-    </div>
-
-    <article class="feature fade">
-      <div class="feature-top">
-        <div>
-          <span class="eyebrow"><span data-l="en">2025 to now · built solo</span><span data-l="es">2025 a hoy · desarrollo propio</span></span>
-          <h3><span data-l="en">AgroTrace, livestock traceability</span><span data-l="es">AgroTrace, trazabilidad ganadera</span></h3>
-          <p class="lede"><span data-l="en">A multi-tenant web platform for Argentine cattle farms. Each animal carries an electronic ear tag. AgroTrace reads that tag in the field, stores what happened to the animal, and sends its movements to SENASA, the national agri-food authority. I designed, built and shipped it end to end.</span><span data-l="es">Una plataforma web multi-establecimiento para campos ganaderos de Argentina. Cada animal lleva una caravana electrónica. AgroTrace la lee en el campo, guarda lo que le pasó al animal y envía sus movimientos a SENASA. La diseñé, la construí y la puse en marcha de punta a punta.</span></p>
-        </div>
-        <dl class="facts">
-          <div><dt>Frontend</dt><dd>Next.js, React, TypeScript, PWA</dd></div>
-          <div><dt><span data-l="en">Data</span><span data-l="es">Datos</span></dt><dd>Supabase Postgres, Auth, RLS</dd></div>
-          <div><dt>Hardware</dt><dd><span data-l="en">RFID readers over BLE</span><span data-l="es">Lectores RFID por BLE</span></dd></div>
-          <div><dt>Infra</dt><dd>Docker, Cloud Run, Vercel</dd></div>
-          <div><dt>Testing</dt><dd><span data-l="en">Playwright, regression tests</span><span data-l="es">Playwright, tests de regresión</span></dd></div>
-        </dl>
-      </div>
-      <ul class="notes">
-        <li>
-          <span class="eyebrow"><span data-l="en">Hardware limit</span><span data-l="es">Límite de hardware</span></span>
-          <h4><span data-l="en">Browsers can't reach every reader</span><span data-l="es">El navegador no llega a todos los lectores</span></h4>
-          <p><span data-l="en">Some readers use Bluetooth Classic (SPP), which no browser can open. I found it while testing real hardware, so the app runs as a PWA over BLE and has a native Android path for SPP readers.</span><span data-l="es">Algunos lectores usan Bluetooth Clásico (SPP), que ningún navegador puede abrir. Lo descubrí probando hardware real, así que la app funciona como PWA por BLE y tiene una vía Android nativa para los lectores SPP.</span></p>
-        </li>
-        <li>
-          <span class="eyebrow"><span data-l="en">Bug I traced</span><span data-l="es">Bug que rastreé</span></span>
-          <h4><span data-l="en">Writes that failed without an error</span><span data-l="es">Escrituras que fallaban sin error</span></h4>
-          <p><span data-l="en">Some edits were being lost. I traced it to supabase-js, which returns server rejections as values instead of throwing them. I fixed the sync queue and added regression tests.</span><span data-l="es">Se perdían algunas ediciones. Lo rastreé hasta supabase-js, que devuelve los rechazos del servidor como valores en lugar de lanzarlos. Corregí la cola de sincronización y agregué tests de regresión.</span></p>
-        </li>
-        <li>
-          <span class="eyebrow"><span data-l="en">Security</span><span data-l="es">Seguridad</span></span>
-          <h4><span data-l="en">Permissions enforced in the database</span><span data-l="es">Permisos aplicados en la base de datos</span></h4>
-          <p><span data-l="en">Workspace roles (admin, user, read-only) are enforced with Postgres RLS, with a strict Content-Security-Policy and exports protected against formula injection.</span><span data-l="es">Los roles (admin, usuario, solo lectura) se aplican con RLS de Postgres, con una Content-Security-Policy estricta y exportaciones protegidas contra inyección de fórmulas.</span></p>
-        </li>
-        <li>
-          <span class="eyebrow"><span data-l="en">No public API</span><span data-l="es">Sin API pública</span></span>
-          <h4><span data-l="en">A bot for a government portal</span><span data-l="es">Un bot para un portal del gobierno</span></h4>
-          <p><span data-l="en">The government portal has no API, so a Playwright service submits the movement reports. It runs in Docker with health checks on Google Cloud Run.</span><span data-l="es">El portal del gobierno no tiene API, así que un servicio con Playwright carga los movimientos. Corre en Docker, con health checks, sobre Google Cloud Run.</span></p>
-        </li>
-      </ul>
-    </article>
-
-    <div class="cards">
-      <article class="card fade">
-        <span class="eyebrow">2026 · Next.js 16 · React 19</span>
-        <h3><span data-l="en">E-commerce storefronts</span><span data-l="es">Tiendas e-commerce</span></h3>
-        <p><span data-l="en">An apparel store and a sport-shooting retailer. Checkout recalculates every price on the server from the database, and RLS makes orders insert-only, so no customer can read another's orders. Each product has its own legal sale rules, and ARS prices follow a daily exchange rate.</span><span data-l="es">Una tienda de ropa y una armería deportiva. El checkout recalcula cada precio en el servidor a partir de la base de datos, y RLS hace que los pedidos solo se puedan insertar, así ningún cliente puede leer los de otro. Cada producto tiene sus reglas legales de venta, y los precios en pesos siguen el tipo de cambio del día.</span></p>
-        <div class="chips"><span class="chip">Supabase</span><span class="chip">SQL migrations</span><span class="chip">Vercel</span></div>
-      </article>
-      <article class="card fade" style="--d:1">
-        <span class="eyebrow"><span data-l="en">Programming III · Aug 2026 · team of 3</span><span data-l="es">Programación III · ago 2026 · equipo de 3</span></span>
-        <h3><span data-l="en">Graph algorithms REST API</span><span data-l="es">API REST de algoritmos sobre grafos</span></h3>
-        <p><span data-l="en">A Spring Boot API over a metro fibre-optic network modelled in Neo4j: BFS, DFS, Dijkstra, Floyd–Warshall, Prim and Kruskal with union-find, greedy, 0/1 knapsack, backtracking and branch and bound, with JUnit tests checked by hand.</span><span data-l="es">Una API en Spring Boot sobre una red de fibra óptica metropolitana modelada en Neo4j: BFS, DFS, Dijkstra, Floyd–Warshall, Prim y Kruskal con union-find, greedy, mochila 0/1, backtracking y branch and bound, con tests JUnit verificados a mano.</span></p>
-        <div class="chips"><span class="chip">Java</span><span class="chip">Spring Boot</span><span class="chip">Neo4j</span><span class="chip">Docker Compose</span></div>
-      </article>
-    </div>
-  </section>
-
-  <section class="section wrap" id="path" aria-labelledby="path-title">
-    <div class="sec-head">
-      <span class="eyebrow"><span data-l="en">Education and path · oldest first</span><span data-l="es">Formación y trayecto · del más antiguo al más reciente</span></span>
-      <h2 id="path-title"><span data-l="en" class="split">The trace so far</span><span data-l="es" class="split">El trayecto hasta hoy</span></h2>
-    </div>
-    <ol class="log">
-      <li><time datetime="2024">2024</time><p><span data-l="en">Cambridge B2 First certificate in English.</span><span data-l="es">Certificado Cambridge B2 First de inglés.</span></p></li>
-      <li><time datetime="2025">2025</time><p><span data-l="en">Started Computer Engineering at UADE (expected 2030): algorithms, data structures, OOP in Java, operating systems, SQL Server databases. Started building AgroTrace.</span><span data-l="es">Empecé Ingeniería en Informática en UADE (egreso previsto 2030): algoritmos, estructuras de datos, POO en Java, sistemas operativos, bases de datos en SQL Server. Empecé a construir AgroTrace.</span></p></li>
-      <li><time datetime="2026-05"><span data-l="en">May 2026</span><span data-l="es">May 2026</span></time><p><span data-l="en">Platanus Hack 26 with Vibefence, AI Security track.</span><span data-l="es">Platanus Hack 26 con Vibefence, track de seguridad en IA.</span></p></li>
-      <li><time datetime="2026-07"><span data-l="en">Jul 2026</span><span data-l="es">Jul 2026</span></time><p>Serious Game Hackathon, Madrid in Game × BIG Buenos Aires.</p></li>
-      <li><time datetime="2026-08"><span data-l="en">Aug 2026</span><span data-l="es">Ago 2026</span></time><p><span data-l="en">Graph algorithms API for Programming III. Two e-commerce storefronts.</span><span data-l="es">API de algoritmos sobre grafos para Programación III. Dos tiendas e-commerce.</span></p></li>
-      <li><time datetime="2026-10"><span data-l="en">Now</span><span data-l="es">Hoy</span></time><p><span data-l="en">Looking for my first role on a remote team.</span><span data-l="es">Busco mi primer puesto en un equipo remoto.</span></p></li>
-    </ol>
-  </section>
-</main>
-
-<footer class="footer wrap" id="contact" aria-labelledby="contact-title">
-  <div class="footer-top">
-    <h2 class="footer-title" id="contact-title"><span data-l="en">Let's talk</span><span data-l="es">Hablemos</span></h2>
-    <p class="footer-title quote">Trace. Build. Ship.</p>
-  </div>
-  <hr>
-  <div class="footer-bottom">
-    <div class="socials">
-      <a href="https://linkedin.com/in/marco-sobrido" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect x="2" y="9" width="4" height="12"/><circle cx="4" cy="4" r="2"/></svg></a>
-      <a href="https://github.com/M4RQUIT0S" target="_blank" rel="noopener" aria-label="GitHub"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg></a>
-      <a href="mailto:marcosobrido@gmail.com" aria-label="Email"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="4" width="20" height="16" rx="2"/><path d="m22 7-10 6L2 7"/></svg></a>
-    </div>
-    <div>
-      <button class="copy-email" type="button" data-copy="marcosobrido@gmail.com">marcosobrido@gmail.com</button>
-      <p class="copied" id="copied" aria-live="polite"></p>
-    </div>
-    <nav class="footer-links" aria-label="Footer">
-      <a href="#build"><span data-l="en">Skills</span><span data-l="es">Habilidades</span></a>
-      <a href="#projects"><span data-l="en">Projects</span><span data-l="es">Proyectos</span></a>
-      <a href="cv.pdf" target="_blank" rel="noopener">CV</a>
-    </nav>
-  </div>
-  <div class="wordmark" aria-hidden="true"><span data-letters>Sobrido</span><span class="accent" data-letters>.</span></div>
-</footer>
+    </section>
 </div>
 
-<div class="cursor-ring" id="cursor-ring" aria-hidden="true"></div>
-<div class="cursor-pill" id="cursor-pill" aria-hidden="true"><b data-l="en">Say</b><b data-l="es">Decí</b> <span data-l="en">hello!</span><span data-l="es">¡hola!</span></div>
+<div id="cursor-ring" class="cursor-ring-outline" aria-hidden="true"></div>
+
+<div id="glass-card" class="glass-cursor-card" aria-hidden="true">
+    <span class="cursor-card-text"><span class="text-white"><span data-l="en">Say</span><span data-l="es">Decí</span></span> <span data-l="en">Hello!</span><span data-l="es">¡Hola!</span></span>
+</div>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const root = document.documentElement;
+    document.body.classList.remove('no-js');
+
+    // Language toggle
+    const langButtons = document.querySelectorAll('.lang button');
+    const setLang = lang => {
+        root.lang = lang;
+        langButtons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.set === lang)));
+        try { localStorage.setItem('lang', lang); } catch (e) { /* storage blocked: choice lasts for this visit only */ }
+    };
+    langButtons.forEach(b => b.addEventListener('click', () => {
+        if (b.dataset.set === root.lang) return;
+        document.startViewTransition ? document.startViewTransition(() => setLang(b.dataset.set)) : setLang(b.dataset.set);
+    }));
+    setLang(root.lang);
+
+    // Giant wordmark: each letter in a mask, sliding in from the left
+    const logoText = document.querySelector('.footer-logo-text');
+    if (logoText) {
+        const text = logoText.textContent.trim();
+        logoText.replaceChildren(...[...text].map((char, index) => {
+            const wrapper = document.createElement('span');
+            wrapper.className = 'letter-wrapper';
+            const inner = document.createElement('span');
+            inner.textContent = char === ' ' ? ' ' : char;
+            inner.className = 'letter-inner';
+            inner.style.animationDelay = `${index * 0.09}s`;
+            wrapper.appendChild(inner);
+            return wrapper;
+        }));
+    }
+
+    // Headlines: each word in a mask, rising out of a blur. Each language block is split on its own.
+    const splitWords = block => {
+        const parts = block.innerHTML.trim().split(/(\s+|<br\s*\/?>)/i);
+        const label = block.textContent.replace(/\s+/g, ' ').trim();
+        block.textContent = '';
+        let wordIndex = 0;
+        parts.forEach(part => {
+            if (part.trim() === '') {
+                if (part) block.appendChild(document.createTextNode(' '));
+            } else if (part.toLowerCase().startsWith('<br')) {
+                block.appendChild(document.createElement('br'));
+            } else {
+                const wrapper = document.createElement('span');
+                wrapper.className = 'word-wrapper';
+                wrapper.setAttribute('aria-hidden', 'true');
+                const inner = document.createElement('span');
+                inner.className = 'word-inner';
+                inner.textContent = part; // ponytail: parts come from our own static markup, set as text, never as HTML
+                inner.style.animationDelay = `${wordIndex * 0.1}s`;
+                wordIndex++;
+                wrapper.appendChild(inner);
+                block.appendChild(wrapper);
+            }
+        });
+        block.setAttribute('aria-label', label);
+    };
+    document.querySelectorAll('.hero-title [data-l], .section-title [data-l]').forEach(splitWords);
+
+    // Scroll reveals for the portfolio below the screen
+    const io = new IntersectionObserver(entries => entries.forEach(entry => {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('in');
+        io.unobserve(entry.target);
+    }), { threshold: 0.2 });
+    document.querySelectorAll('.section-title, .rise').forEach(el => io.observe(el));
+
+    // Cursor: outlined ring tracks instantly, glass pill lags behind (lerp)
+    const glassCard = document.getElementById('glass-card');
+    const cursorRing = document.getElementById('cursor-ring');
+    const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    if (glassCard && cursorRing && finePointer) {
+        let mouseX = window.innerWidth / 2;
+        let mouseY = window.innerHeight / 2;
+        let cardX = mouseX, cardY = mouseY;
+        let ringX = mouseX, ringY = mouseY;
+        let isFirstMove = true;
+        let scale = 0;
+        let targetScale = 0;
+        let isHoveringBtn = false;
+
+        document.addEventListener('mousemove', (e) => {
+            mouseX = e.clientX;
+            mouseY = e.clientY;
+            if (isFirstMove) {
+                cardX = mouseX; cardY = mouseY;
+                ringX = mouseX; ringY = mouseY;
+                isFirstMove = false;
+                glassCard.classList.add('active');
+                cursorRing.classList.add('active');
+            }
+            if (!isHoveringBtn) targetScale = 1;
+        });
+        document.addEventListener('mouseleave', () => { targetScale = 0; });
+        document.addEventListener('mouseenter', () => { if (!isHoveringBtn) targetScale = 1; });
+
+        // Every link and button hides the pill and widens the ring, like "Book a demo" in the original
+        document.querySelectorAll('a, button').forEach(target => {
+            target.addEventListener('mouseenter', () => {
+                isHoveringBtn = true;
+                targetScale = 0;
+                cursorRing.classList.add('expanded');
+            });
+            target.addEventListener('mouseleave', () => {
+                isHoveringBtn = false;
+                targetScale = 1;
+                cursorRing.classList.remove('expanded');
+            });
+        });
+
+        const updatePhysics = () => {
+            cardX += (mouseX - cardX) * 0.08;
+            cardY += (mouseY - cardY) * 0.08;
+            ringX = mouseX;
+            ringY = mouseY;
+            scale += (targetScale - scale) * 0.15;
+            const ringScale = cursorRing.classList.contains('expanded') ? 1.6 : scale;
+            glassCard.style.transform = `translate3d(${cardX}px, ${cardY}px, 0) translate(-50%, -50%) scale(${scale})`;
+            cursorRing.style.transform = `translate3d(${ringX}px, ${ringY}px, 0) translate(-50%, -50%) scale(${ringScale})`;
+            requestAnimationFrame(updatePhysics);
+        };
+        updatePhysics();
+    }
+});
+</script>
 </body>
 </html>
