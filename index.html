@@ -350,24 +350,6 @@ a { color: inherit; }
 .rise.in { opacity: 1; transform: none; }
 .no-js .rise { opacity: 1; transform: none; }
 
-/* ============ Cursor ============ */
-.cursor-ring-outline {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 48px;
-    height: 48px;
-    border: 1.5px solid rgba(255, 255, 255, 0.45);
-    border-radius: 50%;
-    z-index: 99998;
-    pointer-events: none;
-    transform: translate(-50%, -50%) scale(0);
-    opacity: 0;
-    will-change: transform, opacity;
-    transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1), border-color 0.4s ease;
-}
-.cursor-ring-outline.active { opacity: 1; }
-.cursor-ring-outline.expanded { border-color: rgba(255, 255, 255, 0.15); }
 
 /* ============ Small screens ============ */
 @media (max-width: 760px) {
@@ -380,9 +362,6 @@ a { color: inherit; }
     .facts, .columns { grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .project, .notes { grid-template-columns: minmax(0, 1fr); }
     .path li { grid-template-columns: minmax(0, 1fr); gap: 0.25rem; }
-}
-@media (hover: none), (pointer: coarse) {
-    .cursor-ring-outline { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
     html { scroll-behavior: auto; }
@@ -576,7 +555,6 @@ a { color: inherit; }
     </section>
 </div>
 
-<div id="cursor-ring" class="cursor-ring-outline" aria-hidden="true"></div>
 
 
 <script>
@@ -648,30 +626,6 @@ document.addEventListener('DOMContentLoaded', () => {
         io.unobserve(entry.target);
     }), { threshold: 0.2 });
     document.querySelectorAll('.section-title, .rise').forEach(el => io.observe(el));
-
-    // Cursor: an outlined ring that tracks the pointer and widens over links and buttons
-    const cursorRing = document.getElementById('cursor-ring');
-    const finePointer = matchMedia('(hover: hover) and (pointer: fine)').matches && !matchMedia('(prefers-reduced-motion: reduce)').matches;
-    if (cursorRing && finePointer) {
-        let mouseX = 0, mouseY = 0, scale = 0, targetScale = 0;
-        document.addEventListener('mousemove', (e) => {
-            mouseX = e.clientX;
-            mouseY = e.clientY;
-            cursorRing.classList.add('active');
-            targetScale = cursorRing.classList.contains('expanded') ? 1.6 : 1;
-        });
-        document.addEventListener('mouseleave', () => { targetScale = 0; });
-        document.querySelectorAll('a, button').forEach(target => {
-            target.addEventListener('mouseenter', () => { cursorRing.classList.add('expanded'); targetScale = 1.6; });
-            target.addEventListener('mouseleave', () => { cursorRing.classList.remove('expanded'); targetScale = 1; });
-        });
-        const updatePhysics = () => {
-            scale += (targetScale - scale) * 0.15;
-            cursorRing.style.transform = `translate3d(${mouseX}px, ${mouseY}px, 0) translate(-50%, -50%) scale(${scale})`;
-            requestAnimationFrame(updatePhysics);
-        };
-        updatePhysics();
-    }
 
     // Email: mailto opens the mail app; the address is also copied in case there isn't one
     const emailNote = document.getElementById('email-note');
