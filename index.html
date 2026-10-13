@@ -4,8 +4,8 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Marco Sobrido</title>
-<meta name="description" content="Marco Sobrido Alvano, full-stack developer and Computer Engineering student in Buenos Aires. Next.js, TypeScript, Supabase, Python.">
-<meta property="og:title" content="Marco Sobrido · Full-Stack Developer">
+<meta name="description" content="Marco Sobrido Alvano, junior full-stack developer and Computer Engineering student at UADE. TypeScript, React, Next.js and PostgreSQL. Open to remote roles.">
+<meta property="og:title" content="Marco Sobrido · Junior Full-Stack Developer">
 <meta property="og:description" content="AgroTrace livestock traceability, hackathons, e-commerce and graph algorithms. Open to remote junior roles.">
 <meta name="theme-color" content="#000000">
 <style>
@@ -393,7 +393,7 @@ a { color: inherit; }
             <span data-l="en">Full-stack developer, open <br> to remote junior roles</span>
             <span data-l="es">Desarrollador full-stack, disponible <br> para puestos junior remotos</span>
         </h1>
-        <a class="hero-btn" href="cv.pdf" target="_blank" rel="noopener">
+        <a class="hero-btn" href="cv.pdf?v=20261013" target="_blank" rel="noopener">
             <span class="btn-text"><span data-l="en">Download my CV</span><span data-l="es">Descargar mi CV</span></span>
             <span class="blinking-dot"></span>
         </a>
@@ -451,8 +451,8 @@ a { color: inherit; }
             <span data-l="es">Construyo plataformas web de punta a punta</span>
         </h2>
         <p class="lede rise">
-            <span data-l="en">I'm Marco Sobrido Alvano, a Computer Engineering student at UADE in Buenos Aires. I work from the database rules to the RFID reader in the user's hand, I trace bugs to their root cause, and I use AI agents every day while keeping the decisions about data and security to myself.</span>
-            <span data-l="es">Soy Marco Sobrido Alvano, estudiante de Ingeniería en Informática en UADE, Buenos Aires. Trabajo desde las reglas de la base de datos hasta el lector RFID en la mano del usuario, rastreo los bugs hasta su causa raíz y uso agentes de IA a diario, sin delegar las decisiones sobre datos y seguridad.</span>
+            <span data-l="en">I'm Marco Sobrido Alvano, a Computer Engineering student at UADE and junior full-stack developer in Buenos Aires. I build applications with TypeScript, React, Next.js and PostgreSQL, focusing on data persistence, access control and tests. My work includes AgroTrace, e-commerce applications and team hackathon prototypes.</span>
+            <span data-l="es">Soy Marco Sobrido Alvano, estudiante de Ingeniería en Informática en UADE y desarrollador full-stack junior en Buenos Aires. Desarrollo aplicaciones con TypeScript, React, Next.js y PostgreSQL, con foco en persistencia de datos, control de acceso y pruebas. Mis proyectos incluyen AgroTrace, tiendas e-commerce y prototipos grupales de hackatones.</span>
         </p>
         <div class="facts rise">
             <div class="fact"><b>Buenos Aires</b><span data-l="en">UTC−3 · remote</span><span data-l="es">UTC−3 · remoto</span></div>
@@ -465,7 +465,7 @@ a { color: inherit; }
     <section class="section" id="projects" aria-labelledby="projects-title">
         <span class="kicker"><span class="blinking-dot" aria-hidden="true"></span><span data-l="en">Selected work</span><span data-l="es">Proyectos</span></span>
         <h2 class="section-title" id="projects-title">
-            <span data-l="en">Things I have shipped</span>
+            <span data-l="en">Selected projects</span>
             <span data-l="es">Lo que construí</span>
         </h2>
         <ol class="projects">
@@ -475,14 +475,14 @@ a { color: inherit; }
                     <h3>AgroTrace</h3>
                 </div>
                 <div class="project-body">
-                    <p><span data-l="en">A multi-tenant platform for livestock traceability in Argentina. Each animal carries an electronic ear tag: AgroTrace reads it in the field, stores what happened to the animal and sends its movements to SENASA, the national agri-food authority.</span><span data-l="es">Una plataforma multi-establecimiento de trazabilidad ganadera en Argentina. Cada animal lleva una caravana electrónica: AgroTrace la lee en el campo, guarda lo que le pasó al animal y envía sus movimientos a SENASA.</span></p>
+                    <p><span data-l="en">A livestock traceability platform I built independently with Next.js, TypeScript, Supabase and Vercel. It records electronic ear tags and animal movements, with workspace roles, local editing and synchronization.</span><span data-l="es">Una plataforma de trazabilidad ganadera que desarrollé de forma independiente con Next.js, TypeScript, Supabase y Vercel. Registra caravanas electrónicas y movimientos de animales, con roles por establecimiento, edición local y sincronización.</span></p>
                     <ul class="notes">
-                        <li><h4><span data-l="en">Browsers can't reach every reader</span><span data-l="es">El navegador no llega a todos los lectores</span></h4><p><span data-l="en">Bluetooth Classic (SPP) readers are out of any browser's reach, so the app runs as a PWA over BLE and has a native Android path for SPP.</span><span data-l="es">Los lectores Bluetooth Clásico (SPP) quedan fuera del alcance de cualquier navegador, así que la app funciona como PWA por BLE y tiene una vía Android nativa para SPP.</span></p></li>
+                        <li><h4><span data-l="en">RFID reader integration</span><span data-l="es">Integración con lectores RFID</span></h4><p><span data-l="en">Developed a Web Bluetooth integration for BLE RFID readers and documented compatibility limits to guide PWA and native Android design decisions.</span><span data-l="es">Implementé una integración Web Bluetooth para lectores RFID BLE y documenté los límites de compatibilidad para orientar las decisiones de diseño entre PWA y Android nativo.</span></p></li>
                         <li><h4><span data-l="en">Writes that failed silently</span><span data-l="es">Escrituras que fallaban sin aviso</span></h4><p><span data-l="en">Lost edits traced to supabase-js returning server rejections instead of throwing them. Fixed the sync queue and added regression tests.</span><span data-l="es">Ediciones perdidas que rastreé hasta supabase-js, que devuelve los rechazos del servidor en vez de lanzarlos. Corregí la cola de sincronización y agregué tests de regresión.</span></p></li>
                         <li><h4><span data-l="en">Permissions in the database</span><span data-l="es">Permisos en la base de datos</span></h4><p><span data-l="en">Roles enforced with Postgres RLS, a strict Content-Security-Policy and exports safe from formula injection.</span><span data-l="es">Roles aplicados con RLS de Postgres, una Content-Security-Policy estricta y exportaciones a salvo de inyección de fórmulas.</span></p></li>
-                        <li><h4><span data-l="en">A bot for a portal with no API</span><span data-l="es">Un bot para un portal sin API</span></h4><p><span data-l="en">A Playwright service submits the movement reports, in Docker with health checks on Google Cloud Run.</span><span data-l="es">Un servicio con Playwright carga los movimientos, en Docker con health checks sobre Google Cloud Run.</span></p></li>
+                        <li><h4><span data-l="en">Portal integration in development</span><span data-l="es">Integración con el portal en desarrollo</span></h4><p><span data-l="en">Developed an initial Playwright integration, running locally through a tunnel. The complete SIGSA submission flow remains in development.</span><span data-l="es">Desarrollé una integración inicial con Playwright, ejecutada en local mediante un túnel. El flujo completo de carga en SIGSA continúa en desarrollo.</span></p></li>
                     </ul>
-                    <div class="pills"><span>Next.js</span><span>TypeScript</span><span>Supabase</span><span>Web Bluetooth</span><span>Playwright</span><span>Cloud Run</span></div>
+                    <div class="pills"><span>Next.js</span><span>TypeScript</span><span>Supabase</span><span>Web Bluetooth</span><span>Playwright</span><span>Vercel</span></div>
                 </div>
             </li>
             <li class="project rise">
@@ -491,7 +491,7 @@ a { color: inherit; }
                     <h3>Vibefence</h3>
                 </div>
                 <div class="project-body">
-                    <p><span data-l="en">AI Security track, 36 hours, more than 100 hackers. A runtime security layer for AI coding agents: it intercepts every tool call and blocks shell commands whose authority comes from untrusted sources, such as a README with a prompt injection.</span><span data-l="es">Track de seguridad en IA, 36 horas, más de 100 participantes. Una capa de seguridad para agentes de programación con IA: intercepta cada llamada a herramientas y bloquea los comandos cuya autoridad viene de fuentes no confiables, como un README con prompt injection.</span></p>
+                    <p><span data-l="en">In a 36-hour hackathon, our team built an AI-agent security prototype with tool-call controls, access-control testing and a live dashboard. We shared implementation tasks across the team, rotating work, meals and rest.</span><span data-l="es">En un hackatón de 36 horas, nuestro equipo desarrolló un prototipo de seguridad para agentes de IA, con controles sobre llamadas a herramientas, pruebas de acceso y un dashboard. Compartimos las tareas de implementación entre todos, rotando los turnos de trabajo, comida y descanso.</span></p>
                     <div class="pills"><span>Python</span><span>FastAPI</span><span>Next.js</span><span>MCP</span></div>
                 </div>
             </li>
@@ -501,7 +501,7 @@ a { color: inherit; }
                     <h3>El Ateneo: Cuentos del Splendid</h3>
                 </div>
                 <div class="project-body">
-                    <p><span data-l="en">A cozy management game set in El Ateneo Grand Splendid, the 1919 theatre turned bookstore: a playable 3-level browser prototype and a 1:1 recreation of the building in Unreal Engine 5.</span><span data-l="es">Un juego de gestión ambientado en El Ateneo Grand Splendid, el teatro de 1919 convertido en librería: prototipo jugable de 3 niveles en el navegador y una recreación 1:1 del edificio en Unreal Engine 5.</span></p>
+                    <p><span data-l="en">I created and implemented the entire Unreal Engine virtual world of El Ateneo Grand Splendid as an explorable environment. Our five-person team also delivered a playable 3-level browser game prototype and a pitch deck.</span><span data-l="es">Creé el mundo virtual de El Ateneo Grand Splendid y me encargué de toda su implementación en Unreal Engine como entorno explorable. Nuestro equipo de cinco integrantes también entregó un prototipo jugable de tres niveles en el navegador y una presentación del juego.</span></p>
                     <div class="pills"><span>HTML5 Canvas</span><span>WebAudio</span><span>Unreal Engine 5</span></div>
                 </div>
             </li>
@@ -511,7 +511,7 @@ a { color: inherit; }
                     <h3><span data-l="en">E-commerce storefronts</span><span data-l="es">Tiendas e-commerce</span></h3>
                 </div>
                 <div class="project-body">
-                    <p><span data-l="en">An apparel store and a sport-shooting retailer. Checkout recalculates every price on the server and RLS makes orders insert-only, so no customer can read another's orders. Per-product legal sale rules and ARS prices on a daily exchange rate.</span><span data-l="es">Una tienda de ropa y una armería deportiva. El checkout recalcula cada precio en el servidor y RLS hace que los pedidos solo se puedan insertar, así ningún cliente lee los de otro. Reglas legales de venta por producto y precios en pesos con el tipo de cambio del día.</span></p>
+                    <p><span data-l="en">Developed two storefronts with server-side price validation and database access controls to protect customer orders. Built versioned SQL migrations and integration tests, including a purchase-flow database test rolled back after execution.</span><span data-l="es">Desarrollé dos tiendas con validación de precios en el servidor y controles de acceso en la base de datos para proteger los pedidos de los clientes. Implementé migraciones SQL versionadas y pruebas de integración, incluida una prueba del flujo de compra con rollback.</span></p>
                     <div class="pills"><span>Supabase</span><span>PostgreSQL</span><span>Vercel</span></div>
                 </div>
             </li>
@@ -521,7 +521,7 @@ a { color: inherit; }
                     <h3><span data-l="en">Graph algorithms API</span><span data-l="es">API de algoritmos sobre grafos</span></h3>
                 </div>
                 <div class="project-body">
-                    <p><span data-l="en">A Spring Boot API over a metro fibre-optic network in Neo4j: BFS, DFS, Dijkstra, Floyd–Warshall, Prim and Kruskal, 0/1 knapsack, backtracking and branch and bound, with JUnit tests checked by hand.</span><span data-l="es">Una API en Spring Boot sobre una red de fibra óptica en Neo4j: BFS, DFS, Dijkstra, Floyd–Warshall, Prim y Kruskal, mochila 0/1, backtracking y branch and bound, con tests JUnit verificados a mano.</span></p>
+                    <p><span data-l="en">Contributed to a Java and Spring Boot REST API for a 10-node fiber network in Neo4j, built with a three-person team at UADE. The project implements graph traversal, shortest-path and spanning-tree algorithms, with JUnit validation and Docker Compose configuration.</span><span data-l="es">Participé en una API REST con Java y Spring Boot para una red de fibra óptica de diez nodos en Neo4j, desarrollada en un equipo de tres integrantes en UADE. El proyecto implementa recorridos de grafos, caminos mínimos y árboles de expansión, con validación mediante JUnit y configuración con Docker Compose.</span></p>
                     <div class="pills"><span>Java</span><span>Spring Boot</span><span>Neo4j</span><span>JUnit</span></div>
                 </div>
             </li>
@@ -531,13 +531,13 @@ a { color: inherit; }
     <section class="section" id="stack" aria-labelledby="stack-title">
         <span class="kicker"><span class="blinking-dot" aria-hidden="true"></span>Stack</span>
         <h2 class="section-title" id="stack-title">
-            <span data-l="en">Tools I have shipped with</span>
+            <span data-l="en">Tools I work with</span>
             <span data-l="es">Herramientas con las que trabajo</span>
         </h2>
         <div class="columns rise">
             <div><h3><span data-l="en">Languages</span><span data-l="es">Lenguajes</span></h3><ul><li>TypeScript</li><li>JavaScript</li><li>Python</li><li>Java</li><li>SQL</li></ul></div>
             <div><h3>Web &amp; backend</h3><ul><li>React, Next.js</li><li>Node.js, REST</li><li>Spring Boot</li><li>Tailwind CSS</li><li>PWAs, Web Bluetooth</li></ul></div>
-            <div><h3><span data-l="en">Data &amp; cloud</span><span data-l="es">Datos y nube</span></h3><ul><li>PostgreSQL, Supabase</li><li>Neo4j, SQL Server</li><li>Google Cloud Run</li><li>Vercel, Docker</li></ul></div>
+            <div><h3><span data-l="en">Data &amp; cloud</span><span data-l="es">Datos y nube</span></h3><ul><li>PostgreSQL, Supabase</li><li>Neo4j, SQL Server</li><li>Vercel, Docker Compose</li></ul></div>
             <div><h3><span data-l="en">Practice</span><span data-l="es">Práctica</span></h3><ul><li>Git &amp; GitHub</li><li>Playwright</li><li>Linux (Red Hat)</li><li>Claude Code, Codex</li><li>Unreal Engine 5</li></ul></div>
         </div>
         <ol class="path rise">
